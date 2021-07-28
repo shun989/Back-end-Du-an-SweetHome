@@ -25,11 +25,11 @@ class LoginTest extends TestCase
         $data = [
             'email' => 'toilaai',
             'password' => 'admin123',
+            'phone' => '098123',
         ];
 
-        $response = $this->post('api/login', $data);
-        $response->assertStatus(200);
-        $response->assertJson(['status' => 'error']);
+        $response = $this->post('api/auth/login', $data);
+        $response->assertStatus(422);
     }
 
     public function test_login_success() {
@@ -40,10 +40,10 @@ class LoginTest extends TestCase
         $data = [
             'email' => 'admin@123',
             'password' => 'admin123',
+            'phone' => '098123',
         ];
 
-        $response = $this->post('api/login', $data);
+        $response = $this->post('api/auth/login', $data);
         $response->assertStatus(200);
-        $response->assertJson(['status' => 'success']);
     }
 }
