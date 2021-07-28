@@ -50,11 +50,19 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
+//        $validator = Validator::make($request->all(), [
+//            'name' => 'required|between:2,100',
+//            'email' => 'required|email|max:100',
+//            'phone' => 'required|regex:/^(0,[0-9]{9})$/',
+//            'password' => 'required|confirmed|min:6',
+//        ]);
+
+
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|between:2,100',
-            'email' => 'required|string|email|max:100|unique:users',
-            'phone' => 'required|regex:/(84|0[3|5|7|8|9])+([0-9]{8})',
-            'password' => 'required|string|confirmed|min:6',
+            'name' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'password' => 'required|confirmed',
         ]);
 
         if ($validator->fails()) {
@@ -71,7 +79,6 @@ class AuthController extends Controller
             'user' => $user
         ], 201);
     }
-
 
     /**
      * Log the user out (Invalidate the token).
