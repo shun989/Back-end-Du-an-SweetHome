@@ -29,7 +29,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|max:20',
         ]);
 
         if ($validator->fails()) {
@@ -52,18 +52,10 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|between:2,100',
-            'email' => 'required|email|max:100',
-            'phone' => 'required|regex:/^(0,[0-9]{9})$/',
-            'password' => 'required|confirmed|min:6',
+            'email' => 'required|email|max:100|unique:users',
+            'phone' => 'required|max: 10',
+            'password' => 'required|confirmed|min:6|max:20',
         ]);
-
-
-//        $validator = Validator::make($request->all(), [
-//            'name' => 'required',
-//            'email' => 'required',
-//            'phone' => 'required',
-//            'password' => 'required|confirmed',
-//        ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
