@@ -30,7 +30,7 @@ class RegisterTest extends TestCase
         $data = [
             'name' => 'toilaai',
             'email' => 'toilaai@gmail.com',
-            'phone' => '0398097982123',
+            'phone' => '099809923',
             'password' => '1232123',
             'password_confirmation' => '1232123',
         ];
