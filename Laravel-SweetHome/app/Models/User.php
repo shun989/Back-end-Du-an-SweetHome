@@ -43,6 +43,7 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -57,7 +58,6 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Apartment::class,'user_id');
     }
-
 
     public function roles()
     {

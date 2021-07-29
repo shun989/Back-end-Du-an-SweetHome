@@ -17,6 +17,7 @@ class CreateWardsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('prefix');
+            $table->unsignedBigInteger('district_id');
             $table->timestamps();
         });
     }
