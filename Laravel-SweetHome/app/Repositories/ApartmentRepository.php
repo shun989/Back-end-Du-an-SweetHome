@@ -13,4 +13,8 @@ class ApartmentRepository
     {
         $this->apartmentModel = $apartment;
     }
+
+    function getById($id) {
+        return $this->apartmentModel->find($id);
+    }
 }
