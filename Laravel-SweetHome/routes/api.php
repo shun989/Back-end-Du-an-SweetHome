@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\LoginController;
+use App\Models\Apartment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,4 +29,13 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
+});
+Route::group([
+    'middleware' => 'api',
+    'prefix'=>'apartment'
+],function ($router){
+    Route::get('/',[Apartment::class, 'index']);
+    Route::post('/add',[Apartment::class, 'add']);
+    Route::put('/{$id}',[Apartment::class,'update']);
+    Route::delete('/{$id}',[Apartment::class, 'destroy']);
 });
