@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('login', [LoginController::class, 'login']);
+
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
