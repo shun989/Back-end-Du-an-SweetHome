@@ -50,20 +50,20 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-//        $validator = Validator::make($request->all(), [
-//            'name' => 'required|between:2,100',
-//            'email' => 'required|email|max:100',
-//            'phone' => 'required|regex:/^(0,[0-9]{9})$/',
-//            'password' => 'required|confirmed|min:6',
-//        ]);
-
-
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
-            'password' => 'required|confirmed',
+            'name' => 'required|between:2,100',
+            'email' => 'required|email|max:100',
+            'phone' => 'required|regex:/^(0,[0-9]{9})$/',
+            'password' => 'required|confirmed|min:6',
         ]);
+
+
+//        $validator = Validator::make($request->all(), [
+//            'name' => 'required',
+//            'email' => 'required',
+//            'phone' => 'required',
+//            'password' => 'required|confirmed',
+//        ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
