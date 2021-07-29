@@ -29,7 +29,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|max:8',
         ]);
 
         if ($validator->fails()) {
@@ -60,8 +60,8 @@ class AuthController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|regex:/[0-9]{9}/',
             'password' => 'required|confirmed',
         ]);
 
