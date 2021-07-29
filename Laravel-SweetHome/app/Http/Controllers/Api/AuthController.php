@@ -37,7 +37,10 @@ class AuthController extends Controller
         }
 
         if (!$token = auth()->attempt($validator->validated())) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json([
+                'message' => 'Email or password wrong !',
+                'error' => 'Unauthorized'
+            ]);
         }
 
         return $this->createNewToken($token);
