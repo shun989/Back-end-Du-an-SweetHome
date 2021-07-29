@@ -16,7 +16,12 @@ class GoogleController extends Controller
 {
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('google')
+            ->with(['code_challenge_method' => 'SXyX7LgsDa'])
+            ->redirect();
+//        dd(Socialite::driver('google')
+//            ->with(['code_challenge_method' => 'SXyX7LgsDa'])
+//            ->redirect());
     }
 
     public function handleGoogleCallback()
@@ -27,6 +32,7 @@ class GoogleController extends Controller
             $finduser = User::where('google_id', $user->id)->first();
 
             if ($finduser) {
+//                dd(1);
 
                 Auth::login($finduser);
 //                Session::put('email_user', $finduser['email']);
