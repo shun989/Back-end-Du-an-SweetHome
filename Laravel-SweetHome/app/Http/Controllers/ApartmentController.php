@@ -57,6 +57,6 @@ class ApartmentController extends Controller
             'message' => "Customer record successfully deleted id # $id",
         ], 200);
     }
-
+    
     
 }
