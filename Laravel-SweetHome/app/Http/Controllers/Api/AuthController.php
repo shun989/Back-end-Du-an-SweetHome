@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+
 use Laravel\Socialite\Facades\Socialite;
 use Validator;
 use Exception;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -54,10 +56,11 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|between:2,100',
-            'email' => 'required|email|max:100|unique:users',
-            'phone' => 'required|max: 10',
-            'password' => 'required|confirmed|min:6|max:20',
+            'email' => 'required|email|max:100',
+            'password' => 'required|confirmed|min:6|max:8',
+            'phone' => 'required|regex:/^(0+[0-9]{9})$/',
         ]);
+
 
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
@@ -76,6 +79,28 @@ class AuthController extends Controller
         ], 201);
     }
 
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required|min:6|max:8',
+            'new_password' => 'required|confirmed|min:6|max:8',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        $userId = auth()->user()->id;
+
+        $user = User::where('id',$userId)->update(
+            ['password' => bcrypt($request->new_password)]
+        );
+
+        return response()->json([
+            'message' => 'User successfully registered',
+            'user' => $user
+        ], 201);
+    }
     /**
      * Log the user out (Invalidate the token).
      *
