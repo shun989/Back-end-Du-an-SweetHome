@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use  Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Facades\Socialite;
+use Validator;
+use Exception;
 
 
 class AuthController extends Controller
@@ -53,10 +56,11 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|between:2,100',
-            'email' => 'required|email|max:100|unique:users',
-            'phone' => 'required|max: 10',
-            'password' => 'required|confirmed|min:6|max:20',
+            'email' => 'required|email|max:100',
+            'password' => 'required|confirmed|min:6|max:8',
+            'phone' => 'required|regex:/^(0+[0-9]{9})$/',
         ]);
+
 
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
@@ -64,7 +68,9 @@ class AuthController extends Controller
 
         $user = User::create(array_merge(
             $validator->validated(),
-            ['password' => bcrypt($request->password)]
+            [
+                'password' => bcrypt($request->password),
+            ]
         ));
 
         return response()->json([
@@ -73,6 +79,28 @@ class AuthController extends Controller
         ], 201);
     }
 
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required|min:6|max:8',
+            'new_password' => 'required|confirmed|min:6|max:8',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        $userId = auth()->user()->id;
+
+        $user = User::where('id',$userId)->update(
+            ['password' => bcrypt($request->new_password)]
+        );
+
+        return response()->json([
+            'message' => 'User successfully registered',
+            'user' => $user
+        ], 201);
+    }
     /**
      * Log the user out (Invalidate the token).
      *
@@ -121,4 +149,43 @@ class AuthController extends Controller
             'user' => auth()->user()
         ]);
     }
+
+// login Google
+
+//    public function redirectToGoogle()
+//    {
+//        return Socialite::driver('google')->redirect();
+//    }
+//
+//    public function handleGoogleCallback()
+//    {
+//        try {
+//
+//            $user = Socialite::driver('google')->stateless()->user();
+//            $finduser = User::where('google_id', $user->id)->first();
+//
+//            if ($finduser) {
+//
+//                Auth::login($finduser);
+////                Session::put('email_user', $finduser['email']);
+//
+//                return response()->json(['status' => 'success']);
+//
+//            } else {
+//
+//                $newUser = User::create([
+//                    'name' => $user->name,
+//                    'email' => $user->email,
+//                    'google_id' => $user->id,
+//                    'password' => encrypt('123456')
+//                ]);
+//                Auth::login($newUser);
+//                return response()->json(['status' => 'success']);
+////                return redirect()->route('product.index');
+//            }
+//
+//        } catch (Exception $e) {
+//            dd($e->getMessage(), 1);
+//        }
+//    }
 }
