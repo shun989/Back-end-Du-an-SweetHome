@@ -18,8 +18,8 @@ class CreateApartmentsTable extends Migration
             $table->string('name');
             $table->float('price', 11, 2);
             $table->text('description');
-            $table->integer('bathroomNumber');
-            $table->integer('bedroomNumber');
+            $table->integer('bathroomNumber')->nullable();
+            $table->integer('bedroomNumber')->nullable();
             $table->string('photo');
             $table->text('address');
             $table->timestamps();
