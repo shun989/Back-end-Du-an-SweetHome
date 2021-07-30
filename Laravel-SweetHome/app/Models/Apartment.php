@@ -15,13 +15,9 @@ class Apartment extends Model
         'bathroomNumber',
         'bedroomNumber',
         'address',
-<<<<<<< HEAD
-        'photo'
-=======
         'photo',
         'wards_id',
         'category_id'
->>>>>>> 5feb7d2eecb7ff58fb6d14b469e80dacb07be1e3
     ];
 
 //    public function user()
