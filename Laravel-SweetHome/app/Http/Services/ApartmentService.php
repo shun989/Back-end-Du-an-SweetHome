@@ -2,15 +2,14 @@
 
 namespace App\Http\Services;
 
-
-use App\Http\Repositories\ApartmentRepository;
+use App\Http\Repositories\ApartmentRepo;
 use App\Models\User;
 
 class ApartmentService
 {
-    protected ApartmentRepository $apartmentRepo;
+    protected ApartmentRepo $apartmentRepo;
 
-    public function __construct(ApartmentRepository  $apartmentRepository)
+    public function __construct(ApartmentRepo  $apartmentRepository)
     {
         $this->apartmentRepo = $apartmentRepository;
     }

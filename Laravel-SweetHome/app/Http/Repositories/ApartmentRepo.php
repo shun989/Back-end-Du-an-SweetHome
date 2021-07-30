@@ -5,7 +5,7 @@ namespace App\Http\Repositories;
 use App\Models\Apartment;
 use Illuminate\Support\Facades\DB;
 
-class ApartmentRepository
+class ApartmentRepo
 {
     protected Apartment $apartmentModel;
 
