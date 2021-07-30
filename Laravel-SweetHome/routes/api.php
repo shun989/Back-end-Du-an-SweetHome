@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+//Route::post('login', [LoginController::class, 'login']);
+
+//Route::post('/change-password', [AuthController::class, 'changePassword']);
+
+
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
@@ -32,4 +38,5 @@ Route::middleware('auth:api')->group(function (){
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
     Route::get('/apartment/show/{id}', [ApartmentController::class, 'show']);
+    Route::post('/change-password', [AuthController::class, 'changePassword']);
 });
