@@ -20,4 +20,10 @@ class ApartmentController extends Controller
         $apartment = $this->apartmentService->getById($id);
         return response()->json($apartment);
     }
+
+    function index()
+    {
+        $apartments = $this->apartmentService->getAll();
+        return response()->json($apartments);
+    }
 }

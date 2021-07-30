@@ -1,10 +1,9 @@
 <?php
 
-use App\Http\Controllers\Api\ApartmentController;
+//use App\Http\Controllers\Api\ApartmentController;
+use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\LoginController;
-use App\Models\Apartment;
-use Illuminate\Http\Request;
+//use App\Http\Controllers\Api\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,25 +28,28 @@ Route::group([
     'prefix' => 'auth'
 
 ], function () {
-    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
-    Route::get('/google', [\App\Http\Controllers\Api\GoogleController::class, 'redirectToGoogle']);
-    Route::get('/google/callback', [\App\Http\Controllers\Api\GoogleController::class, 'handleGoogleCallback']);
+//    Route::get('/google', [GoogleController::class, 'redirectToGoogle']);
+//    Route::get('/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 });
 
 Route::middleware('auth:api')->group(function (){
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
-    Route::get('/apartment/show/{id}', [ApartmentController::class, 'show']);
     Route::post('/change-password', [AuthController::class, 'changePassword']);
+
+    Route::prefix('apartment')->group(function (){
+        Route::post('/add',[ApartmentController::class, 'store']);
+        Route::put('/{$id}',[ApartmentController::class,'update']);
+        Route::delete('/{$id}',[ApartmentController::class, 'destroy']);
+    });
+
 });
-Route::group([
-    'middleware' => 'api',
-    'prefix'=>'apartment'
-],function ($router){
-    Route::get('/',[Apartment::class, 'index']);
-    Route::post('/add',[Apartment::class, 'add']);
-    Route::put('/{$id}',[Apartment::class,'update']);
-    Route::delete('/{$id}',[Apartment::class, 'destroy']);
+
+Route::prefix('apartment')->group(function (){
+    Route::get('', [ApartmentController::class, 'index']);
+    Route::get('/{id}', [ApartmentController::class, 'show']);
 });
+

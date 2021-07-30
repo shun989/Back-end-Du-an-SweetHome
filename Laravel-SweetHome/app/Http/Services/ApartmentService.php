@@ -17,4 +17,9 @@ class ApartmentService
     function getById($id) {
         return $this->apartmentRepo->getById($id);
     }
+
+    function getAll()
+    {
+        return $this->apartmentRepo->getAll();
+    }
 }
