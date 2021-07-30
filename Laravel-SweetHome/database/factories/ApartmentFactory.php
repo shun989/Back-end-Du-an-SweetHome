@@ -22,7 +22,13 @@ class ApartmentFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->name(),
+            'price' => $this->faker->numberBetween(100,9999),
+            'description' => $this->faker->numerify('description ###'),
+            'bathroomNumber' => $this->faker->randomDigitNot(5),
+            'bedroomNumber' => $this->faker->randomDigitNot(5),
+            'photo' => $this->faker->url,
+            'address' => $this->faker->country,
         ];
     }
 }

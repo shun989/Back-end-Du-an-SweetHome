@@ -2,11 +2,15 @@
 
 namespace App\Http\Services;
 
-use App\Http\Repositories\ApartmentRepo;
-use App\Models\User;
-
-class ApartmentService
+interface ApartmentService
 {
+<<<<<<< HEAD
+    public function getAll();
+    public function findById($id);
+    public function create($request);
+    public function update($request, $id);
+    public function destroy($id);
+=======
     protected ApartmentRepo $apartmentRepo;
 
     public function __construct(ApartmentRepo  $apartmentRepository)
@@ -22,4 +26,5 @@ class ApartmentService
     {
         return $this->apartmentRepo->getAll();
     }
+>>>>>>> 5feb7d2eecb7ff58fb6d14b469e80dacb07be1e3
 }

@@ -1,9 +1,8 @@
 <?php
 
-//use App\Http\Controllers\Api\ApartmentController;
+
 use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\Api\AuthController;
-//use App\Http\Controllers\Api\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,12 +15,6 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-
-//Route::post('login', [LoginController::class, 'login']);
-
-//Route::post('/change-password', [AuthController::class, 'changePassword']);
-
 
 Route::group([
     'middleware' => 'api',
@@ -51,5 +44,6 @@ Route::middleware('auth:api')->group(function (){
 Route::prefix('apartment')->group(function (){
     Route::get('', [ApartmentController::class, 'index']);
     Route::get('/{id}', [ApartmentController::class, 'show']);
+
 });
 
