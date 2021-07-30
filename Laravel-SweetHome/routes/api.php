@@ -31,5 +31,9 @@ Route::middleware('auth:api')->group(function (){
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
-    Route::get('/apartment/show/{id}', [ApartmentController::class, 'show']);
+});
+
+Route::prefix('apartment')->group(function (){
+    Route::get('', [ApartmentController::class, 'index']);
+    Route::get('/{id}', [ApartmentController::class, 'show']);
 });

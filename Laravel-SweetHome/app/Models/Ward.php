@@ -10,6 +10,7 @@ class Ward extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'prefix'
+        'prefix',
+        'district_id'
     ];
 }

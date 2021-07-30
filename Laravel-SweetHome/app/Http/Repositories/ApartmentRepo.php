@@ -17,4 +17,9 @@ class ApartmentRepo
     function getById($id) {
         return $this->apartmentModel->find($id);
     }
+
+    public function getAll()
+    {
+        return $this->apartmentModel->getAll();
+    }
 }
