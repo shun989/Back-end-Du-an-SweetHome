@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ApartmentController;
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,18 +21,22 @@ use Illuminate\Support\Facades\Route;
 
 //Route::post('/change-password', [AuthController::class, 'changePassword']);
 
+
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
 
 ], function () {
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/register', [AuthController::class, 'register']);
+    Route::get('/google', [\App\Http\Controllers\Api\GoogleController::class, 'redirectToGoogle']);
+    Route::get('/google/callback', [\App\Http\Controllers\Api\GoogleController::class, 'handleGoogleCallback']);
 });
 
 Route::middleware('auth:api')->group(function (){
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
+    Route::get('/apartment/show/{id}', [ApartmentController::class, 'show']);
     Route::post('/change-password', [AuthController::class, 'changePassword']);
 });

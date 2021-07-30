@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+
+use Laravel\Socialite\Facades\Socialite;
+use Validator;
+use Exception;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -64,7 +68,9 @@ class AuthController extends Controller
 
         $user = User::create(array_merge(
             $validator->validated(),
-            ['password' => bcrypt($request->password)]
+            [
+                'password' => bcrypt($request->password),
+            ]
         ));
 
         return response()->json([
@@ -143,4 +149,43 @@ class AuthController extends Controller
             'user' => auth()->user()
         ]);
     }
+
+// login Google
+
+//    public function redirectToGoogle()
+//    {
+//        return Socialite::driver('google')->redirect();
+//    }
+//
+//    public function handleGoogleCallback()
+//    {
+//        try {
+//
+//            $user = Socialite::driver('google')->stateless()->user();
+//            $finduser = User::where('google_id', $user->id)->first();
+//
+//            if ($finduser) {
+//
+//                Auth::login($finduser);
+////                Session::put('email_user', $finduser['email']);
+//
+//                return response()->json(['status' => 'success']);
+//
+//            } else {
+//
+//                $newUser = User::create([
+//                    'name' => $user->name,
+//                    'email' => $user->email,
+//                    'google_id' => $user->id,
+//                    'password' => encrypt('123456')
+//                ]);
+//                Auth::login($newUser);
+//                return response()->json(['status' => 'success']);
+////                return redirect()->route('product.index');
+//            }
+//
+//        } catch (Exception $e) {
+//            dd($e->getMessage(), 1);
+//        }
+//    }
 }
