@@ -22,6 +22,14 @@ class CreateApartmentsTable extends Migration
             $table->integer('bedroomNumber')->nullable();
             $table->string('photo');
             $table->text('address');
+            $table->foreignId('user_id')
+                ->nullable()
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('category_id')
+                ->nullable()
+                ->constrained('categories');
             $table->timestamps();
         });
     }

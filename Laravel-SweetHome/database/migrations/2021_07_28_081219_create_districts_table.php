@@ -17,7 +17,8 @@ class CreateDistrictsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('prefix');
-            $table->unsignedBigInteger('provinces_id');
+            $table->foreignId('province_id')
+                ->constrained('provinces');
             $table->timestamps();
         });
     }
