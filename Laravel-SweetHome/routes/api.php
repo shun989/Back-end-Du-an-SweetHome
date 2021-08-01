@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,5 +44,10 @@ Route::middleware('auth:api')->group(function () {
 Route::prefix('apartment')->group(function () {
     Route::get('', [ApartmentController::class, 'index']);
     Route::get('/{id}', [ApartmentController::class, 'show']);
+    Route::get('/{id}/list-of-user', [ApartmentController::class, 'listOfUser']);
+});
+
+Route::prefix('user')->group(function () {
+   Route::get('', [UserController::class, 'index']);
 });
 

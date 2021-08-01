@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Apartment extends Model
 {
     use HasFactory;
+
+    protected $dates = ['created_at'];
     protected $fillable = [
         'name',
         'price',
