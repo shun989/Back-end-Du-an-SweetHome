@@ -19,7 +19,7 @@ class ApartmentController extends Controller
 
     function index()
     {
-        $apartments = Apartment::with('user', 'status', 'category')->get();
+        $apartments = Apartment::with('user', 'status', 'category','ward')->get();
         $data = [];
         foreach ($apartments as $apartment) {
             $data[] = [
@@ -36,6 +36,9 @@ class ApartmentController extends Controller
                 'description' => $apartment->description,
                 'address' => $apartment->address,
                 'user_id' => $apartment->user->id,
+                'ward' => $apartment->ward->name,
+                'district' => $apartment->ward->district->name,
+                'province' => $apartment->ward->district->province->name,
             ];
         }
         return response()->json($data, 200);
@@ -54,11 +57,29 @@ class ApartmentController extends Controller
 
     function show($id)
     {
-        $apartment = Apartment::findOrFail($id);
-        $statusCode = 200;
-        if (!$apartment)
-            $statusCode = 404;
-        return response()->json($apartment, $statusCode);
+        $apartments = Apartment::with('user', 'status', 'category','ward')
+            ->findOrFail($id);
+        $data = [];
+            $data[] = [
+                'id' => $apartments->id,
+                'name' => $apartments->name,
+                'price' => $apartments->price,
+                'created_at' => $apartments->created_at->format('jS F Y h:i:s A'),
+                'user' => $apartments->user->name,
+                'phone' => $apartments->user->phone,
+                'category' => $apartments->category->name,
+                'image' => $apartments->photo,
+                'status' => $apartments->status->name,
+                'bathroom' => $apartments->bathroomNumber,
+                'bedroom' => $apartments->bedroomNumber,
+                'description' => $apartments->description,
+                'address' => $apartments->address,
+                'user_id' => $apartments->user->id,
+                'ward' => $apartments->ward->name,
+                'district' => $apartments->ward->district->name,
+                'province' => $apartments->ward->district->province->name,
+            ];
+        return response()->json($data, 200);
     }
 
     function update(UpdateApartmentRequest $request, $id)
