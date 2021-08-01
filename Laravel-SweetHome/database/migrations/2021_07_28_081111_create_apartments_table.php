@@ -29,7 +29,14 @@ class CreateApartmentsTable extends Migration
                 ->onDelete('cascade');
             $table->foreignId('category_id')
                 ->nullable()
-                ->constrained('categories');
+                ->constrained('categories')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('status_id')
+                ->nullable()
+                ->constrained('status')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

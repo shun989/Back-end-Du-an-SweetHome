@@ -28,9 +28,14 @@ class Apartment extends Model
     {
         return $this->belongsTo(Category::class);
     }
-//
-//    public function status()
-//    {
-//        return $this->belongsTo(Status::class);
-//    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
 }

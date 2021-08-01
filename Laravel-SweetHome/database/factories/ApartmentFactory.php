@@ -29,6 +29,9 @@ class ApartmentFactory extends Factory
             'bedroomNumber' => $this->faker->randomDigitNot(5),
             'photo' => $this->faker->url,
             'address' => $this->faker->country,
+            'user_id' => $this->faker->numberBetween(1,50),
+            'category_id' => $this->faker->numberBetween(1,5),
+            'status_id' => $this->faker->numberBetween(1,3),
         ];
     }
 }

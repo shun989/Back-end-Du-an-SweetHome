@@ -4,14 +4,41 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddApartmentRequest;
 use App\Http\Requests\UpdateApartmentRequest;
+use App\Http\Services\Impl\ApartmentServiceImpl;
 use App\Models\Apartment;
 use Illuminate\Http\Request;
 
 class ApartmentController extends Controller
 {
-    function index(){
-        $apartment = Apartment::all();
-        return response()->json($apartment, 200);
+//    protected $apartment;
+//
+//    public function __construct(ApartmentServiceImpl $apartmentServiceImpl)
+//    {
+//        $this->apartment = $apartmentServiceImpl;
+//    }
+
+    function index()
+    {
+        $apartments = Apartment::with('user', 'status', 'category')->get();
+        $data = [];
+        foreach ($apartments as $apartment) {
+            $data[] = [
+                'id' => $apartment->id,
+                'name' => $apartment->name,
+                'price' => $apartment->price,
+                'created_at' => $apartment->created_at->format('jS F Y h:i:s A'),
+                'user' => $apartment->user->name,
+                'category' => $apartment->category->name,
+                'image' => $apartment->photo,
+                'status' => $apartment->status->name,
+                'bathroom' => $apartment->bathroomNumber,
+                'bedroom' => $apartment->bedroomNumber,
+                'description' => $apartment->description,
+                'address' => $apartment->address,
+                'user_id' => $apartment->user->id,
+            ];
+        }
+        return response()->json($data, 200);
     }
 
     function store(AddApartmentRequest $request)
@@ -24,14 +51,18 @@ class ApartmentController extends Controller
             $statusCode = 404;
         return response($apartment, $statusCode);
     }
-    function show($id){
+
+    function show($id)
+    {
         $apartment = Apartment::findOrFail($id);
         $statusCode = 200;
         if (!$apartment)
             $statusCode = 404;
         return response()->json($apartment, $statusCode);
     }
-    function update(UpdateApartmentRequest $request, $id){
+
+    function update(UpdateApartmentRequest $request, $id)
+    {
 
         $categories = Apartment::findOrFail($id);
         $categories->fill($request->all());
@@ -41,7 +72,9 @@ class ApartmentController extends Controller
             $statusCode = 404;
         return response()->json($categories, $statusCode);
     }
-    function destroy($id){
+
+    function destroy($id)
+    {
         $user = Apartment::find($id);
 
         if (is_null($user)) {

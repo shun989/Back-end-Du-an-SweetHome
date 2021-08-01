@@ -15,11 +15,7 @@ class CreateStatusTable extends Migration
     {
         Schema::create('status', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('apartment_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+            $table->string('name')->default('1');
             $table->timestamps();
         });
     }
