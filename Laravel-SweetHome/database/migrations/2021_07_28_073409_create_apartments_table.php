@@ -22,6 +22,9 @@ class CreateApartmentsTable extends Migration
             $table->integer('bedroomNumber')->nullable();
             $table->string('photo');
             $table->text('address');
+            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('wards_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
     }

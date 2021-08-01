@@ -100,7 +100,7 @@ class AuthController extends Controller
         );
 
         return response()->json([
-            'message' => 'User successfully registered',
+            'message' => 'User successfully change password.',
             'user' => $user
         ], 201);
     }
