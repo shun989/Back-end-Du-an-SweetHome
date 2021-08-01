@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Image extends Model
 {
     use HasFactory;
-    protected $fillable = ['name'];
 
-    public function apartments() {
-        return $this->hasMany(Apartment::class);
+    public function apartment()
+    {
+        return $this->belongsTo(Apartment::class);
     }
 }

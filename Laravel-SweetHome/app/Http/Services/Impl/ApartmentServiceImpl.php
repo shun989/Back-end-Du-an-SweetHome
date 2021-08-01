@@ -21,7 +21,7 @@ class ApartmentServiceImpl implements ApartmentService
 
     public function findById($id)
     {
-        // TODO: Implement findById() method.
+
     }
 
     public function create($request)
