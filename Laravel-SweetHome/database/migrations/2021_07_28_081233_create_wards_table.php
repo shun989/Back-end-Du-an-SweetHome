@@ -18,7 +18,9 @@ class CreateWardsTable extends Migration
             $table->string('name');
             $table->string('prefix');
             $table->foreignId('district_id')
-                ->constrained('districts');
+                ->constrained('districts')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

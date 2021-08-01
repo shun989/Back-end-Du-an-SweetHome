@@ -38,4 +38,9 @@ class Apartment extends Model
     {
         return $this->hasMany(Image::class);
     }
+
+    public function ward()
+    {
+        return $this->belongsTo(Ward::class);
+    }
 }

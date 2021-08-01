@@ -37,6 +37,11 @@ class CreateApartmentsTable extends Migration
                 ->constrained('status')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->foreignId('ward_id')
+                ->nullable()
+                ->constrained('wards')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

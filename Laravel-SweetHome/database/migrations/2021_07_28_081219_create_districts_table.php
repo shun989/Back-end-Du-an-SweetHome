@@ -18,7 +18,9 @@ class CreateDistrictsTable extends Migration
             $table->string('name');
             $table->string('prefix');
             $table->foreignId('province_id')
-                ->constrained('provinces');
+                ->constrained('provinces')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -17,4 +17,9 @@ class Ward extends Model
     public function district() {
         return $this->belongsTo(District::class);
     }
+
+    public function apartments()
+    {
+        return $this->hasMany(Apartment::class);
+    }
 }
