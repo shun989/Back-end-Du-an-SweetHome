@@ -46,7 +46,6 @@ class ApartmentController extends Controller
         $apartments = Apartment::with('user', 'status', 'category','ward')
             ->findOrFail($id);
 
-//        $data = [];
             $data[] = [
                 'id' => $apartments->id,
                 'name' => $apartments->name,
