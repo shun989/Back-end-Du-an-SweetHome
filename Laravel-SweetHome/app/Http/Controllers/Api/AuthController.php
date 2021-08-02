@@ -59,14 +59,14 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|between:2,100',
-            'email' => 'required|email|max:100',
+            'email' => 'required|email|max:100|unique:users',
             'password' => 'required|confirmed|min:6|max:8',
-            'phone' => 'required|regex:/^(0+[0-9]{9})$/',
+            'phone' => 'required|regex:/^(0+[0-9]{9})$/|unique:users',
         ]);
 
 
         if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
 
         $user = User::create(array_merge(
