@@ -17,12 +17,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-//        $this->app->singleton(
-//            ApartmentRepository::class,
-//            ApartmentRepositoryImpl::class,
-//            ApartmentService::class,
-//            ApartmentServiceImpl::class,
-//        );
+
+        $this->app->singleton(
+            ApartmentService::class,
+            ApartmentServiceImpl::class
+        );
+
+        $this->app->singleton(
+            ApartmentRepository::class,
+            ApartmentRepositoryImpl::class
+        );
     }
 
     /**
