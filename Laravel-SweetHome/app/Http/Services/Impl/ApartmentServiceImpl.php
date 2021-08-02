@@ -23,6 +23,7 @@ class ApartmentServiceImpl implements ApartmentService
 
     public function findById($id)
     {
+
         $apartment = $this->apartmentRepo->findById($id);
 
         $statusCode = 200;
@@ -35,6 +36,7 @@ class ApartmentServiceImpl implements ApartmentService
         ];
 
         return $data;
+
     }
 
     public function create($request)

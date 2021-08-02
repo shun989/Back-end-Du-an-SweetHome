@@ -53,21 +53,5 @@ class ApartmentController extends Controller
         return response()->json($dataApartment['apartments'], $dataApartment['statusCode']);
     }
 
-    public function create(Request $request)
-    {
-        $file = $request->file('image');
-        $fileName = date('His') . '-' . $file->getClientOriginalName();
-        $data = $request->all();
-        $data['image'] = $fileName;
 
-        if ($request->hasFile('image')) {
-            $extension = $file->getClientOriginalExtension();
-            $picture = $fileName;
-            $file->move(public_path('img'), $picture);
-            $dataApartment = $this->apartmentService->create($data);
-            return response()->json(['dataApartment' => $dataApartment, 'message' => 'Successfully']);
-        }else{
-            return response()->json(['message'=> 'Select file first']);
-        }
-    }
 }
