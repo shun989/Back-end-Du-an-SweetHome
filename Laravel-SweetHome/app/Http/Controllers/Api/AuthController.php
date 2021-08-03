@@ -64,7 +64,6 @@ class AuthController extends Controller
             'phone' => 'required|regex:/^(0+[0-9]{9})$/|unique:users',
         ]);
 
-
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }

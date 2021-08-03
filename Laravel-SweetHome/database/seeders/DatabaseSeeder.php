@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 //use App\Models\Apartment;
 use App\Models\Apartment;
+use App\Models\Booking;
 use App\Models\Category;
 use App\Models\District;
 use App\Models\Image;
@@ -24,11 +25,12 @@ class DatabaseSeeder extends Seeder
     {
         Category::factory()->count(5)->create();
         User::factory()->count(50)->create();
-        Status::factory()->count(10)->create();
+        Status::factory()->count(3)->create();
         Province::factory()->count(50)->create();
         District::factory()->count(50)->create();
         Ward::factory()->count(100)->create();
         Apartment::factory()->count(50)->create();
         Image::factory()->count(50)->create();
+        Booking::factory()->count(50)->create();
     }
 }

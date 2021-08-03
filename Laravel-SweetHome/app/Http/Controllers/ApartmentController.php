@@ -10,6 +10,7 @@ use App\Http\Services\ApartmentService;
 use App\Http\Services\Impl\ApartmentServiceImpl;
 use App\Models\Apartment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ApartmentController extends Controller
 {
@@ -27,8 +28,8 @@ class ApartmentController extends Controller
 
     function listOfUser($id_user)
     {
-        return ApartmentResource::collection(Apartment::with('user', 'status', 'category','ward')
-            ->where('user_id','=',$id_user)
+        return ApartmentResource::collection(Apartment::with('user', 'status', 'category', 'ward')
+            ->where('user_id', '=', $id_user)
             ->get());
     }
 
@@ -45,28 +46,28 @@ class ApartmentController extends Controller
 
     function show($id)
     {
-        $apartments = Apartment::with('user', 'status', 'category','ward')
+        $apartments = Apartment::with('user', 'status', 'category', 'ward')
             ->findOrFail($id);
 
-            $data[] = [
-                'id' => $apartments->id,
-                'name' => $apartments->name,
-                'price' => $apartments->price,
-                'created_at' => $apartments->created_at->format('jS F Y h:i:s A'),
-                'user' => $apartments->user->name,
-                'phone' => $apartments->user->phone,
-                'category' => $apartments->category->name,
-                'image' => $apartments->photo,
-                'status' => $apartments->status->name,
-                'bathroom' => $apartments->bathroomNumber,
-                'bedroom' => $apartments->bedroomNumber,
-                'description' => $apartments->description,
-                'address' => $apartments->address,
-                'user_id' => $apartments->user->id,
-                'ward' => $apartments->ward->name,
-                'district' => $apartments->ward->district->name,
-                'province' => $apartments->ward->district->province->name,
-            ];
+        $data[] = [
+            'id' => $apartments->id,
+            'name' => $apartments->name,
+            'price' => $apartments->price,
+            'created_at' => $apartments->created_at->format('jS F Y h:i:s A'),
+            'user' => $apartments->user->name,
+            'phone' => $apartments->user->phone,
+            'category' => $apartments->category->name,
+            'image' => $apartments->photo,
+            'status' => $apartments->status->name,
+            'bathroom' => $apartments->bathroomNumber,
+            'bedroom' => $apartments->bedroomNumber,
+            'description' => $apartments->description,
+            'address' => $apartments->address,
+            'user_id' => $apartments->user->id,
+            'ward' => $apartments->ward->name,
+            'district' => $apartments->ward->district->name,
+            'province' => $apartments->ward->district->province->name,
+        ];
         return response()->json($data, 200);
     }
 
@@ -83,8 +84,8 @@ class ApartmentController extends Controller
             $file->move(public_path('img'), $picture);
             $dataApartment = $this->apartmentService->create($data);
             return response()->json(['dataApartment' => $dataApartment, 'message' => 'Add New Apartment Successfully']);
-        }else{
-            return response()->json(['message'=> 'Select file first']);
+        } else {
+            return response()->json(['message' => 'Select file first']);
         }
     }
 
@@ -100,7 +101,6 @@ class ApartmentController extends Controller
 //        $apartmentData = $this->apartmentService->destroy($id);
 //        return response()->json($apartmentData['message'], $apartmentData['statusCode']);
 //    }
-
 
 
     function destroy($id)
