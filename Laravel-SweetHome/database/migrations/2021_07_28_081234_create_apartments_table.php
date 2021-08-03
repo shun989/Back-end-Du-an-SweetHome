@@ -22,9 +22,9 @@ class CreateApartmentsTable extends Migration
             $table->integer('bedroomNumber')->nullable();
             $table->string('photo');
             $table->text('address');
-//            $table->unsignedBigInteger('category_id');
-//            $table->unsignedBigInteger('wards_id');
-//            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('wards_id');
+            $table->unsignedBigInteger('user_id');
             $table->foreignId('user_id')
                 ->nullable()
                 ->constrained()

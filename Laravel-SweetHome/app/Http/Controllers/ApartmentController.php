@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AddApartmentRequest;
 use App\Http\Services\ApartmentService;
-use App\Http\Services\Impl\ApartmentServiceImpl;
 use App\Models\Apartment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ApartmentController extends Controller
 {
@@ -22,10 +21,10 @@ class ApartmentController extends Controller
                 'id' => $apartment->id,
                 'name' => $apartment->name,
                 'price' => $apartment->price,
-                'created_at' => $apartment->created_at->format('jS F Y h:i:s A'),
+                'created_at' => $apartment->created_at,
                 'user' => $apartment->user->name,
                 'category' => $apartment->category->name,
-                'image' => $apartment->photo,
+                'photo' => $apartment->photo,
                 'status' => $apartment->status->name,
                 'bathroom' => $apartment->bathroomNumber,
                 'bedroom' => $apartment->bedroomNumber,
@@ -38,17 +37,7 @@ class ApartmentController extends Controller
             ];
         }
         return response()->json($data, 200);
-    }
 
-    function store(AddApartmentRequest $request)
-    {
-        $apartment = new Apartment();
-        $apartment->fill($request->all());
-        $apartment->save();
-        $statusCode = 201;
-        if (!$apartment)
-            $statusCode = 404;
-        return response($apartment, $statusCode);
     }
 
     function show($id)
@@ -60,11 +49,11 @@ class ApartmentController extends Controller
                 'id' => $apartments->id,
                 'name' => $apartments->name,
                 'price' => $apartments->price,
-                'created_at' => $apartments->created_at->format('jS F Y h:i:s A'),
+                'created_at' => $apartments->created_at,
                 'user' => $apartments->user->name,
                 'phone' => $apartments->user->phone,
                 'category' => $apartments->category->name,
-                'image' => $apartments->photo,
+                'photo' => $apartments->photo,
                 'status' => $apartments->status->name,
                 'bathroom' => $apartments->bathroomNumber,
                 'bedroom' => $apartments->bedroomNumber,
@@ -104,8 +93,6 @@ class ApartmentController extends Controller
     }
 
 
-
-
     function destroy($id)
     {
         $user = Apartment::find($id);
@@ -124,4 +111,15 @@ class ApartmentController extends Controller
             'message' => "Customer record successfully deleted id # $id",
         ], 200);
     }
+
+
+    public function getApartmentOfUser()
+    {
+        $apartment = DB::table('apartments')
+            ->JOIN ('users', 'users.id', '=', 'apartments.user_id')
+            ->SELECT ('apartments.*')
+            ->get();
+        return response()->json($apartment, 200);
+    }
+
 }

@@ -60,8 +60,9 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|between:2,100',
             'email' => 'required|email|max:100|unique:users',
-            'password' => 'required|confirmed|min:6|max:8',
-            'phone' => 'required|regex:/^(0+[0-9]{9})$/|unique:users',
+            'password' => 'required|confirmed|min:6|max:20',
+            'phone' => 'required|regex:/^(0+[0-9]{9})$/',
+
         ]);
 
 
@@ -70,6 +71,7 @@ class AuthController extends Controller
                 'message' => 'Email đã tồn tại!',
                 'error' => 'email'
             ], 400);
+            return response()->json($validator->errors()->toJson(), 400 );
         }
 
         $user = User::create(array_merge(
@@ -249,7 +251,6 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
-
         if (!Hash::check($request->current_password,$user->password)) {
             return response()->json(['error' => "It's not your current password"]);
         }
@@ -257,5 +258,6 @@ class AuthController extends Controller
         $user->save();
 
         return response()->json(['message'=>'Change password success!']);
+
     }
 }

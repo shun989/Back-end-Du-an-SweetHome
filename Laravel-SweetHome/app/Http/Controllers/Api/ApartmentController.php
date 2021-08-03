@@ -30,6 +30,7 @@ class ApartmentController extends Controller
         return response()->json($apartments, 200);
     }
 
+
     public function show($id)
     {
         $dataApartment = $this->apartmentService->findById($id);
