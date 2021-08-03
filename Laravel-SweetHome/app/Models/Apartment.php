@@ -16,9 +16,10 @@ class Apartment extends Model
         'bedroomNumber',
         'address',
         'photo',
-        'wards_id',
+        'ward_id',
         'category_id',
-        'user_id'
+        'user_id',
+        'status_id'
     ];
 
     public function user()

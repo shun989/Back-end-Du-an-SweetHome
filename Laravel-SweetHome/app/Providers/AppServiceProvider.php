@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             UserService::class,
             UserServiceImpl::class
+        );
 
         $this->app->singleton(
             ApartmentService::class,

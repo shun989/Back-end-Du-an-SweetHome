@@ -22,11 +22,9 @@ class CreateApartmentsTable extends Migration
             $table->integer('bedroomNumber')->nullable();
             $table->string('photo');
             $table->text('address');
-<<<<<<< HEAD:Laravel-SweetHome/database/migrations/2021_07_28_073409_create_apartments_table.php
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('wards_id');
             $table->unsignedBigInteger('user_id');
-=======
             $table->foreignId('user_id')
                 ->nullable()
                 ->constrained()
@@ -47,7 +45,6 @@ class CreateApartmentsTable extends Migration
                 ->constrained('wards')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
->>>>>>> 8f94064fbb5cb16c097f05d1205811b5f43bfad1:Laravel-SweetHome/database/migrations/2021_07_28_081234_create_apartments_table.php
             $table->timestamps();
         });
     }
