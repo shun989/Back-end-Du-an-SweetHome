@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\ProvinceController;
+use App\Http\Controllers\StatusController;
 use App\Http\Controllers\WardController;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +51,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/add-category',[CategoryController::class, 'store']);
     });
 
+<<<<<<< HEAD
 //    Route::prefix('apartment')->group(function (){
 //        Route::post('/add',[ApartmentController::class, 'store']);
 //        Route::put('/{$id}',[ApartmentController::class,'update']);
@@ -59,12 +61,20 @@ Route::middleware('auth:api')->group(function () {
 });
 
 
+=======
+    Route::prefix('apartment')->group(function (){
+        Route::post('/add', [ApartmentController::class, 'create']);
+        Route::put('/{id}', [ApartmentController::class, 'update']);
+        Route::delete('/{id}', [ApartmentController::class, 'destroy']);
+        Route::get('/user', [ApartmentController::class, 'getApartmentOfUser']);
+    });
+
+});
+
+>>>>>>> b33cddfc89923c718417d0913086fd44117a1a6a
 Route::prefix('apartment')->group(function () {
     Route::get('', [ApartmentController::class, 'index']);
-    Route::post('/add', [ApartmentController::class, 'create']);
     Route::get('/{id}', [ApartmentController::class, 'show']);
-    Route::put('/{id}', [ApartmentController::class, 'update']);
-    Route::delete('/{id}', [ApartmentController::class, 'destroy']);
 });
 
 Route::prefix('category')->group(function (){
@@ -79,12 +89,15 @@ Route::prefix('province')->group(function (){
 
 Route::prefix('district')->group(function (){
     Route::get('', [DistrictController::class, 'index']);
-    Route::get('/{id}', [DistrictController::class, 'districtOfProvince']);
-    Route::get('/detail/{id}', [DistrictController::class, 'show']);
+    Route::get('/{id}', [DistrictController::class, 'show']);
 });
 
 Route::prefix('ward')->group(function (){
     Route::get('',[WardController::class,'index']);
-    Route::get('/{id}',[WardController::class,'wardOfDistrict']);
-    Route::get('/detail/{id}',[WardController::class,'index']);
+    Route::get('/{id}',[WardController::class,'index']);
+});
+
+Route::prefix('status')->group(function (){
+    Route::get('',[StatusController::class, 'index']);
+    Route::get('/{id}',[StatusController::class, 'show']);
 });

@@ -235,27 +235,27 @@ class AuthController extends Controller
 
     public function changePassword(Request $request)
     {
-        $validators =Validator::make( $request->all(),[
+        $validators = Validator::make($request->all(), [
             'current_password' => 'required',
             'password' => 'required|string|min:6|max:8|confirmed',
             'password_confirmation' => 'required'
         ]);
 
-        if ($validators->fails()){
+        if ($validators->fails()) {
             return response()->json([$validators->errors()->toJson(),
                 'message' => 'Password not match',
                 'error' => 'password_confirmation'
-                ],400);
+            ], 400);
         }
 
         $user = Auth::user();
 
-        if (!Hash::check($request->current_password,$user->password)) {
+        if (!Hash::check($request->current_password, $user->password)) {
             return response()->json(['error' => "It's not your current password"]);
         }
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return response()->json(['message'=>'Change password success!']);
+        return response()->json(['message' => 'Change password success!']);
     }
 }
