@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\DB;
 
 class ApartmentController extends Controller
 {
-    protected ApartmentService $apartmentService;
+
+    private ApartmentService $apartmentService;
 
     public function __construct(ApartmentService $apartmentService)
     {
@@ -28,7 +29,7 @@ class ApartmentController extends Controller
                 'created_at' => $apartment->created_at,
                 'user' => $apartment->user->name,
                 'category' => $apartment->category->name,
-                'image' => $apartment->photo,
+                'photo' => $apartment->photo,
                 'status' => $apartment->status->name,
                 'bathroom' => $apartment->bathroomNumber,
                 'bedroom' => $apartment->bedroomNumber,
@@ -41,6 +42,7 @@ class ApartmentController extends Controller
             ];
         }
         return response()->json($data, 200);
+
     }
 
     function show($id)
@@ -56,7 +58,7 @@ class ApartmentController extends Controller
                 'user' => $apartments->user->name,
                 'phone' => $apartments->user->phone,
                 'category' => $apartments->category->name,
-                'image' => $apartments->photo,
+                'photo' => $apartments->photo,
                 'status' => $apartments->status->name,
                 'bathroom' => $apartments->bathroomNumber,
                 'bedroom' => $apartments->bedroomNumber,
@@ -95,14 +97,6 @@ class ApartmentController extends Controller
         return response()->json($apartmentData['apartments'], $apartmentData['statusCode']);
     }
 
-//    public function destroy($id)
-//    {
-//        $apartmentData = $this->apartmentService->destroy($id);
-//        return response()->json($apartmentData['message'], $apartmentData['statusCode']);
-//    }
-
-
-
     function destroy($id)
     {
         $user = Apartment::find($id);
@@ -122,4 +116,12 @@ class ApartmentController extends Controller
         ], 200);
     }
 
+    public function getApartmentOfUser()
+    {
+        $apartment = DB::table('apartments')
+            ->JOIN ('users', 'users.id', '=', 'apartments.user_id')
+            ->SELECT ('apartments.*')
+            ->get();
+        return response()->json($apartment, 200);
+    }
 }

@@ -6,9 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use  Illuminate\Support\Facades\Auth;
-//use Illuminate\Support\Facades\Validator;
-//use Laravel\Socialite\Facades\Socialite;
-use Validator;
+use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Facades\Socialite;
 use Exception;
 
 
@@ -61,15 +60,12 @@ class AuthController extends Controller
             'name' => 'required|between:2,100',
             'email' => 'required|email|max:100|unique:users',
             'password' => 'required|confirmed|min:6|max:20',
-            'phone' => 'required|regex:/^(0+[0-9]{9})$/|unique:users',
+            'phone' => 'required|regex:/^(0+[0-9]{9})$/',
         ]);
 
 
         if ($validator->fails()) {
-            return response()->json([$validator->errors()->toJson(),
-                'message' => 'Email đã tồn tại!',
-                'error' => 'email'
-            ],400 );
+            return response()->json($validator->errors()->toJson(), 400 );
         }
 
         $user = User::create(array_merge(
@@ -159,6 +155,43 @@ class AuthController extends Controller
 
 // login Google
 
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        try {
+
+            $user = Socialite::driver('google')->stateless()->user();
+            $finduser = User::where('google_id', $user->id)->first();
+
+            if ($finduser) {
+
+                Auth::login($finduser);
+//                Session::put('email_user', $finduser['email']);
+
+                return response()->json(['status' => 'success']);
+
+            } else {
+
+                $newUser = User::create([
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'google_id' => $user->id,
+                    'password' => encrypt('123456')
+                ]);
+                Auth::login($newUser);
+                return response()->json(['status' => 'success']);
+//                return redirect()->route('product.index');
+            }
+
+        } catch (Exception $e) {
+            dd($e->getMessage(), 1);
+        }
+    }
+
 //    public function redirectToGoogle()
 //    {
 //        return Socialite::driver('google')->redirect();
@@ -221,5 +254,4 @@ class AuthController extends Controller
         return response()->json('Mật khẩu cũ không chính xác!!', 400);
 
     }
-
 }
