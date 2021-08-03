@@ -8,5 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Status extends Model
 {
     use HasFactory;
-    protected $fillable = [];
+    protected $table = 'status';
+    protected $fillable = [
+        'name'
+    ];
+
+    public function apartments() {
+        return $this->hasMany(Apartment::class);
+    }
 }

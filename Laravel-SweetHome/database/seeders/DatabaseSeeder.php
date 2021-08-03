@@ -4,7 +4,13 @@ namespace Database\Seeders;
 
 //use App\Models\Apartment;
 use App\Models\Apartment;
+use App\Models\Category;
+use App\Models\District;
+use App\Models\Image;
+use App\Models\Province;
+use App\Models\Status;
 use App\Models\User;
+use App\Models\Ward;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,9 +22,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Apartment::factory()
-            ->count(50)
-            ->create();
+        Category::factory()->count(5)->create();
         User::factory()->count(50)->create();
+        Status::factory()->count(10)->create();
+        Province::factory()->count(50)->create();
+        District::factory()->count(100)->create();
+        Ward::factory()->count(100)->create();
+        Apartment::factory()->count(50)->create();
+        Image::factory()->count(50)->create();
     }
 }
