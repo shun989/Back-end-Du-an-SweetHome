@@ -60,7 +60,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|between:2,100',
             'email' => 'required|email|max:100|unique:users',
-            'password' => 'required|confirmed|min:6|max:20',
+            'password' => 'required|confirmed|min:6|max:8',
             'phone' => 'required|regex:/^(0+[0-9]{9})$/|unique:users',
         ]);
 
@@ -235,16 +235,23 @@ class AuthController extends Controller
 
     public function changePassword(Request $request)
     {
-        $request->validate([
+        $validators =Validator::make( $request->all(),[
             'current_password' => 'required',
             'password' => 'required|string|min:6|max:8|confirmed',
             'password_confirmation' => 'required'
         ]);
 
+        if ($validators->fails()){
+            return response()->json([$validators->errors()->toJson(),
+                'message' => 'Password not match',
+                'error' => 'password_confirmation'
+                ],400);
+        }
+
         $user = Auth::user();
 
         if (!Hash::check($request->current_password,$user->password)) {
-            return response()->json(['error' => 'Password is not match']);
+            return response()->json(['error' => "It's not your current password"]);
         }
         $user->password = Hash::make($request->password);
         $user->save();
