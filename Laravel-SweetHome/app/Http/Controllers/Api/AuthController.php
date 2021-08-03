@@ -41,7 +41,7 @@ class AuthController extends Controller
 
         if (!$token = auth()->attempt($validator->validated())) {
             return response()->json([
-                'message' => 'Email or password wrong !',
+                'message' => 'Email hoặc mật khẩu không chính xác.',
                 'error' => 'Unauthorized'
             ]);
         }
@@ -58,14 +58,17 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|between:2,100',
-            'email' => 'required|email|max:100',
-            'password' => 'required|confirmed|min:6|max:8',
-            'phone' => 'required|regex:/^(0+[0-9]{9})$/',
+            'email' => 'required|email|max:100|unique:users',
+            'password' => 'required|confirmed|min:6|max:20',
+            'phone' => 'required|regex:/^(0+[0-9]{9})$/|unique:users',
         ]);
 
 
         if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json([$validator->errors()->toJson(),
+                'message' => 'Email đã tồn tại!',
+                'error' => 'email'
+            ],400 );
         }
 
         $user = User::create(array_merge(
@@ -76,33 +79,34 @@ class AuthController extends Controller
         ));
 
         return response()->json([
-            'message' => 'User successfully registered',
+            'message' => 'Bạn đã đăng ký thành công!',
             'user' => $user
         ], 201);
+
     }
 
-    public function changePassword(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'old_password' => 'required|min:6|max:8',
-            'new_password' => 'required|confirmed|min:6|max:8',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
-        }
-
-        $userId = auth()->user()->id;
-
-        $user = User::where('id',$userId)->update(
-            ['password' => bcrypt($request->new_password)]
-        );
-
-        return response()->json([
-            'message' => 'User successfully registered',
-            'user' => $user
-        ], 201);
-    }
+//    public function changePassword(Request $request)
+//    {
+//        $validator = Validator::make($request->all(), [
+//            'old_password' => 'required|min:6|max:20',
+//            'new_password' => 'required|confirmed|min:6|max:20',
+//        ]);
+//
+//        if ($validator->fails()) {
+//            return response()->json($validator->errors()->toJson(), 400);
+//        }
+//
+//        $userId = auth()->user()->id;
+//
+//        $user = User::where('id',$userId)->update(
+//            ['password' => bcrypt($request->new_password)]
+//        );
+//
+//        return response()->json([
+//            'message' => 'User successfully change password.',
+//            'user' => $user
+//        ], 201);
+//    }
     /**
      * Log the user out (Invalidate the token).
      *
@@ -112,7 +116,7 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'User successfully signed out']);
+        return response()->json(['message' => 'Bạn đã đăng xuất.!'],200);
     }
 
     /**
@@ -189,5 +193,68 @@ class AuthController extends Controller
         } catch (Exception $e) {
             dd($e->getMessage(), 1);
         }
+    }
+
+//    public function redirectToGoogle()
+//    {
+//        return Socialite::driver('google')->redirect();
+//    }
+//
+//    public function handleGoogleCallback()
+//    {
+//        try {
+//
+//            $user = Socialite::driver('google')->stateless()->user();
+//            $finduser = User::where('google_id', $user->id)->first();
+//
+//            if ($finduser) {
+//
+//                Auth::login($finduser);
+////                Session::put('email_user', $finduser['email']);
+//
+//                return response()->json(['status' => 'success']);
+//
+//            } else {
+//
+//                $newUser = User::create([
+//                    'name' => $user->name,
+//                    'email' => $user->email,
+//                    'google_id' => $user->id,
+//                    'password' => encrypt('123456')
+//                ]);
+//                Auth::login($newUser);
+//                return response()->json(['status' => 'success']);
+////                return redirect()->route('product.index');
+//            }
+//
+//        } catch (Exception $e) {
+//            dd($e->getMessage(), 1);
+//        }
+//    }
+
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required|string|min:6|max:20',
+            'new_password' => 'required|string|confirmed|min:6|max:20',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+        $userId = \auth()->user()->id;
+        $oldPass = \auth()->user()->password;
+
+        if (password_verify($request->old_password, $oldPass)) {
+            $user = User::where('id', $userId)->update(
+                ['password' => bcrypt($request->new_password)]
+            );
+            return response()->json([
+                'message' => 'Đổi mật khẩu thành công.',
+                'user' => $user
+            ], 201);
+        };
+        return response()->json('Mật khẩu cũ không chính xác!!', 400);
+
     }
 }

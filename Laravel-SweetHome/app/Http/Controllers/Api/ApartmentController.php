@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Services\ApartmentService;
+use App\Models\Apartment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ApartmentController extends Controller
 {
@@ -15,15 +17,27 @@ class ApartmentController extends Controller
         $this->apartmentService = $apartmentService;
     }
 
-    function show($id)
+   public function index()
+   {
+       $apartments = DB::table('apartments')
+           ->JOIN ('categories','apartments.category_id', '=','categories.id' )
+           ->JOIN ('wards','apartments.wards_id','=' ,'wards.id' )
+           ->JOIN ('wards',function ($join){
+              $join ->JOIN ('districts','wards.district_id', '=','districts.id' )
+                   ->JOIN ('provinces','districts.provinces_id', '=','provinces.id' );
+           })
+//            ->SELECT ('apartments.name', 'apartments.price', 'apartments.description', 'apartments.bathroomNumber', 'apartments.bedroomNumber', 'apartments.photo', 'apartments.address', 'categories.name', 'wards.name','districts.name','provinces.name')
+           ->SELECT ('apartments.*', 'categories.name', 'wards.name','districts.name','provinces.name')
+           ->get();
+       return response()->json($apartments, 200);
+   }
+
+    public function show($id)
     {
-        $apartment = $this->apartmentService->findById($id);
-        return response()->json($apartment);
+        $dataApartment = $this->apartmentService->findById($id);
+
+        return response()->json($dataApartment['apartments'], $dataApartment['statusCode']);
     }
 
-    function index()
-    {
-        $apartments = $this->apartmentService->getAll();
-        return response()->json($apartments);
-    }
+
 }
