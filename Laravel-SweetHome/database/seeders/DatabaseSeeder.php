@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->count(50)->create();
         Status::factory()->count(10)->create();
         Province::factory()->count(50)->create();
-        District::factory()->count(100)->create();
+        District::factory()->count(50)->create();
         Ward::factory()->count(100)->create();
         Apartment::factory()->count(50)->create();
         Image::factory()->count(50)->create();

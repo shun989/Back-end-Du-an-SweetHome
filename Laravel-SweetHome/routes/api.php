@@ -47,7 +47,3 @@ Route::prefix('apartment')->group(function () {
     Route::get('/{id}/list-of-user', [ApartmentController::class, 'listOfUser']);
 });
 
-Route::prefix('user')->group(function () {
-   Route::get('', [UserController::class, 'index']);
-});
-
