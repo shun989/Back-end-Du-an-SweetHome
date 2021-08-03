@@ -11,13 +11,7 @@ use Illuminate\Http\Request;
 class ApartmentController extends Controller
 {
 
-
     protected ApartmentService $apartmentService;
-
-    public function __construct(ApartmentService $apartmentService)
-    {
-        $this->apartmentService = $apartmentService;
-    }
 
     public function index()
     {
@@ -109,11 +103,6 @@ class ApartmentController extends Controller
         return response()->json($apartmentData['apartments'], $apartmentData['statusCode']);
     }
 
-//    public function destroy($id)
-//    {
-//        $apartmentData = $this->apartmentService->destroy($id);
-//        return response()->json($apartmentData['message'], $apartmentData['statusCode']);
-//    }
 
 
 
@@ -135,5 +124,4 @@ class ApartmentController extends Controller
             'message' => "Customer record successfully deleted id # $id",
         ], 200);
     }
-
 }

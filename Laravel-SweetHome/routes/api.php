@@ -35,7 +35,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
-    Route::post('/change-password', [AuthController::class, 'changePassword']);
+    Route::post('/change-password/', [AuthController::class, 'changePassword'])->name('change.password');
 
     Route::prefix('apartment')->group(function (){
         Route::post('/add',[ApartmentController::class, 'store']);
@@ -50,7 +50,11 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/add-category',[CategoryController::class, 'store']);
     });
 
-
+//    Route::prefix('apartment')->group(function (){
+//        Route::post('/add',[ApartmentController::class, 'store']);
+//        Route::put('/{$id}',[ApartmentController::class,'update']);
+//        Route::delete('/{$id}',[ApartmentController::class, 'destroy']);
+//    });
 
 });
 

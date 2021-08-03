@@ -17,7 +17,6 @@ class ApartmentController extends Controller
         $this->apartmentService = $apartmentService;
     }
 
-
     public function index()
     {
         $apartments = DB::table('apartments')
@@ -30,7 +29,6 @@ class ApartmentController extends Controller
             ->get();
         return response()->json($apartments, 200);
     }
-
 
     public function show($id)
     {
