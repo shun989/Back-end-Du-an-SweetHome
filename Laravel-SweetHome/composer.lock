@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "19dcff04f464731a2deda9820e1e330e",
+    "content-hash": "d29aef56515e5ee7f250069844285028",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5398,6 +5398,10 @@
                 "jwt",
                 "laravel"
             ],
+            "support": {
+                "issues": "https://github.com/tymondesigns/jwt-auth/issues",
+                "source": "https://github.com/tymondesigns/jwt-auth"
+            },
             "funding": [
                 {
                     "url": "https://www.patreon.com/seantymon",
@@ -8108,12 +8112,10 @@
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
-
             "support": {
                 "issues": "https://github.com/theseer/tokenizer/issues",
                 "source": "https://github.com/theseer/tokenizer/tree/1.2.1"
             },
-
             "funding": [
                 {
                     "url": "https://github.com/theseer",
@@ -8129,8 +8131,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.3|^8.0"
+        "php": ">=7.3 | 8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }
