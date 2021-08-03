@@ -36,7 +36,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
-    Route::post('/change-password', [AuthController::class, 'changePassword']);
+    Route::post('/change-password/', [AuthController::class, 'changePassword'])->name('change.password');
 
     Route::prefix('me')->group(function (){
         Route::put('/{id}/update-profile',[UserController::class,'update'])->name('profile.update');
@@ -53,6 +53,7 @@ Route::middleware('auth:api')->group(function () {
     });
 
 });
+
 
 Route::prefix('apartment')->group(function () {
     Route::get('', [ApartmentController::class, 'index']);

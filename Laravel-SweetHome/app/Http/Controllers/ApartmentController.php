@@ -10,14 +10,9 @@ use Illuminate\Support\Facades\DB;
 class ApartmentController extends Controller
 {
 
-    private ApartmentService $apartmentService;
+    protected ApartmentService $apartmentService;
 
-    public function __construct(ApartmentService $apartmentService)
-    {
-        $this->apartmentService = $apartmentService;
-    }
-
-    function index()
+    public function index()
     {
         $apartments = Apartment::with('user', 'status', 'category','ward')->get();
         $data = [];
@@ -97,6 +92,7 @@ class ApartmentController extends Controller
         return response()->json($apartmentData['apartments'], $apartmentData['statusCode']);
     }
 
+
     function destroy($id)
     {
         $user = Apartment::find($id);
@@ -116,6 +112,7 @@ class ApartmentController extends Controller
         ], 200);
     }
 
+
     public function getApartmentOfUser()
     {
         $apartment = DB::table('apartments')
@@ -124,4 +121,5 @@ class ApartmentController extends Controller
             ->get();
         return response()->json($apartment, 200);
     }
+
 }
