@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\ProvinceController;
+use App\Http\Controllers\StatusController;
 use App\Http\Controllers\WardController;
 use Illuminate\Support\Facades\Route;
 
@@ -58,8 +59,8 @@ Route::middleware('auth:api')->group(function () {
 
 Route::prefix('apartment')->group(function () {
     Route::get('', [ApartmentController::class, 'index']);
-    Route::post('/add', [ApartmentController::class, 'create']);
     Route::get('/{id}', [ApartmentController::class, 'show']);
+    Route::post('/add', [ApartmentController::class, 'create']);
     Route::put('/{id}', [ApartmentController::class, 'update']);
     Route::delete('/{id}', [ApartmentController::class, 'destroy']);
 });
@@ -76,6 +77,7 @@ Route::prefix('province')->group(function (){
 
 Route::prefix('district')->group(function (){
     Route::get('', [DistrictController::class, 'index']);
+    Route::get('/data', [DistrictController::class, 'getDataByCitiesId']);
     Route::get('/{id}', [DistrictController::class, 'districtOfProvince']);
     Route::get('/detail/{id}', [DistrictController::class, 'show']);
 });
@@ -84,4 +86,9 @@ Route::prefix('ward')->group(function (){
     Route::get('',[WardController::class,'index']);
     Route::get('/{id}',[WardController::class,'wardOfDistrict']);
     Route::get('/detail/{id}',[WardController::class,'index']);
+});
+
+Route::prefix('status')->group(function (){
+    Route::get('',[StatusController::class, 'index']);
+    Route::get('/{id}',[StatusController::class, 'show']);
 });
