@@ -17,7 +17,7 @@ class ApartmentController extends Controller
 
     function show($id)
     {
-        $apartment = $this->apartmentService->getById($id);
+        $apartment = $this->apartmentService->findById($id);
         return response()->json($apartment);
     }
 
