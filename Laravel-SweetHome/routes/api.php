@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\ProvinceController;
@@ -36,6 +37,15 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
     Route::post('/change-password', [AuthController::class, 'changePassword']);
 
+    Route::prefix('apartment')->group(function (){
+        Route::post('/add',[ApartmentController::class, 'store']);
+        Route::put('/{id}',[ApartmentController::class,'update']);
+        Route::delete('/{id}',[ApartmentController::class, 'destroy']);
+    });
+
+    Route::prefix('me')->group(function (){
+        Route::put('/{id}/update-profile',[UserController::class,'update'])->name('profile.update');
+    });
     Route::prefix('category')->group(function (){
         Route::post('/add-category',[CategoryController::class, 'store']);
     });

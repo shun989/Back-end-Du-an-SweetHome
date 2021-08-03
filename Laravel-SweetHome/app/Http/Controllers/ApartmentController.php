@@ -7,15 +7,12 @@ use App\Http\Services\ApartmentService;
 use App\Http\Services\Impl\ApartmentServiceImpl;
 use App\Models\Apartment;
 use Illuminate\Http\Request;
+use App\Http\Services\ApartmentService;
 
 class ApartmentController extends Controller
 {
-    protected ApartmentService $apartmentService;
 
-    public function __construct(ApartmentService $apartmentService)
-    {
-        $this->apartmentService = $apartmentService;
-    }
+    private ApartmentService $apartmentService;
 
     function index()
     {
@@ -42,6 +39,7 @@ class ApartmentController extends Controller
             ];
         }
         return response()->json($data, 200);
+
     }
 
     function store(AddApartmentRequest $request)
@@ -107,11 +105,6 @@ class ApartmentController extends Controller
         return response()->json($apartmentData['apartments'], $apartmentData['statusCode']);
     }
 
-//    public function destroy($id)
-//    {
-//        $apartmentData = $this->apartmentService->destroy($id);
-//        return response()->json($apartmentData['message'], $apartmentData['statusCode']);
-//    }
 
 
 
@@ -133,5 +126,4 @@ class ApartmentController extends Controller
             'message' => "Customer record successfully deleted id # $id",
         ], 200);
     }
-
 }
