@@ -3,7 +3,10 @@
 
 use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\ProvinceController;
+use App\Http\Controllers\WardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,17 +36,52 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
     Route::post('/change-password', [AuthController::class, 'changePassword']);
 
-    Route::prefix('apartment')->group(function () {
-        Route::post('/add', [ApartmentController::class, 'store']);
-        Route::put('/{$id}', [ApartmentController::class, 'update']);
-        Route::delete('/{$id}', [ApartmentController::class, 'destroy']);
+    Route::prefix('category')->group(function (){
+        Route::post('/add-category',[CategoryController::class, 'store']);
     });
 
+//    Route::prefix('apartment')->group(function (){
+//        Route::post('/add',[ApartmentController::class, 'store']);
+//        Route::put('/{$id}',[ApartmentController::class,'update']);
+//        Route::delete('/{$id}',[ApartmentController::class, 'destroy']);
+//    });
+
 });
+
+//Route::prefix('apartment')->group(function (){
+//        Route::get('', [ApartmentController::class, 'index']);
+//        Route::post('/add', [ApartmentController::class, 'store']);
+//        Route::put('/{$id}', [ApartmentController::class, 'update']);
+//        Route::delete('/{$id}', [ApartmentController::class, 'destroy']);
+//
+//});
 
 Route::prefix('apartment')->group(function () {
     Route::get('', [ApartmentController::class, 'index']);
+    Route::post('/add', [ApartmentController::class, 'create']);
     Route::get('/{id}', [ApartmentController::class, 'show']);
-    Route::get('/{id}/list-of-user', [ApartmentController::class, 'listOfUser']);
+    Route::put('/{id}', [ApartmentController::class, 'update']);
+    Route::delete('/{id}', [ApartmentController::class, 'destroy']);
 });
 
+Route::prefix('category')->group(function (){
+    Route::get('',[CategoryController::class, 'index']);
+    Route::get('/{id}',[CategoryController::class, 'show']);
+});
+
+Route::prefix('province')->group(function (){
+    Route::get('',[ProvinceController::class, 'index']);
+    Route::get('/{id}',[ProvinceController::class, 'show']);
+});
+
+Route::prefix('district')->group(function (){
+    Route::get('', [DistrictController::class, 'index']);
+    Route::get('/{id}', [DistrictController::class, 'districtOfProvince']);
+    Route::get('/detail/{id}', [DistrictController::class, 'show']);
+});
+
+Route::prefix('ward')->group(function (){
+    Route::get('',[WardController::class,'index']);
+    Route::get('/{id}',[WardController::class,'wardOfDistrict']);
+    Route::get('/detail/{id}',[WardController::class,'index']);
+});
