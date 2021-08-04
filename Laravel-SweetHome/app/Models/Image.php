@@ -12,6 +12,10 @@ class Image extends Model
         'apartment_id', 'name'
     ];
 
+    protected $fillable = [
+        'name'
+    ];
+
     public function apartment()
     {
         return $this->belongsTo(Apartment::class);
