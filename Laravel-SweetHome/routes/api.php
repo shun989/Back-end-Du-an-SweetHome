@@ -1,7 +1,7 @@
 <?php
 
 
-use App\Http\Controllers\Api\ApartmentController;
+use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\BookingController;
@@ -40,19 +40,19 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/change-password/', [AuthController::class, 'changePassword'])
         ->name('change.password');
 
-    Route::prefix('me')->group(function (){
-        Route::put('/{id}/update-profile',[UserController::class,'update'])
+    Route::prefix('me')->group(function () {
+        Route::put('/{id}/update-profile', [UserController::class, 'update'])
             ->name('profile.update');
     });
-    Route::prefix('category')->group(function (){
-        Route::post('/add-category',[CategoryController::class, 'store']);
+    Route::prefix('category')->group(function () {
+        Route::post('/add-category', [CategoryController::class, 'store']);
     });
 
     Route::prefix('booking')->group(function () {
-        Route::post('/create', [BookingController::class, 'store']);
+        Route::get('/{id}', [BookingController::class, 'getBookmarked']);
     });
 
-    Route::prefix('apartment')->group(function (){
+    Route::prefix('apartment')->group(function () {
         Route::post('/add', [ApartmentController::class, 'create']);
         Route::put('/{id}', [ApartmentController::class, 'update']);
         Route::delete('/{id}', [ApartmentController::class, 'destroy']);
@@ -60,33 +60,40 @@ Route::middleware('auth:api')->group(function () {
     });
 });
 
+
 Route::prefix('apartment')->group(function () {
     Route::get('', [ApartmentController::class, 'index']);
     Route::get('/{id}', [ApartmentController::class, 'show']);
 
+    Route::get('/{id}/list-of-user', [ApartmentController::class, 'listOfUser']);
+    Route::put('/{id}', [ApartmentController::class, 'update']);
+    Route::delete('/{id}', [ApartmentController::class, 'destroy']);
 });
 
-Route::prefix('category')->group(function (){
-    Route::get('',[CategoryController::class, 'index']);
-    Route::get('/{id}',[CategoryController::class, 'show']);
+Route::prefix('category')->group(function () {
+    Route::get('', [CategoryController::class, 'index']);
+    Route::get('/{id}', [CategoryController::class, 'show']);
 });
 
-Route::prefix('province')->group(function (){
-    Route::get('',[ProvinceController::class, 'index']);
-    Route::get('/{id}',[ProvinceController::class, 'show']);
+Route::prefix('province')->group(function () {
+    Route::get('', [ProvinceController::class, 'index']);
+    Route::get('/{id}', [ProvinceController::class, 'show']);
 });
 
-Route::prefix('district')->group(function (){
+Route::prefix('district')->group(function () {
     Route::get('', [DistrictController::class, 'index']);
     Route::get('/{id}', [DistrictController::class, 'show']);
 });
 
-Route::prefix('ward')->group(function (){
-    Route::get('',[WardController::class,'index']);
-    Route::get('/{id}',[WardController::class,'index']);
+Route::prefix('ward')->group(function () {
+    Route::get('', [WardController::class, 'index']);
+    Route::get('/{id}', [WardController::class, 'index']);
 });
 
-Route::prefix('status')->group(function (){
-    Route::get('',[StatusController::class, 'index']);
-    Route::get('/{id}',[StatusController::class, 'show']);
+Route::prefix('status')->group(function () {
+    Route::get('', [StatusController::class, 'index']);
+    Route::get('/{id}', [StatusController::class, 'show']);
+});
+Route::prefix('booking')->group(function () {
+    Route::post('/create', [BookingController::class, 'store']);
 });

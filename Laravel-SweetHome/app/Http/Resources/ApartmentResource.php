@@ -22,7 +22,7 @@ class ApartmentResource extends JsonResource
             'user' => $this->user->name,
             'phone' => $this->user->phone,
             'category' => $this->category->name,
-            'image' => $this->photo,
+            'photo' => $this->photo,
             'email' => $this->user->email,
             'status' => $this->status->name,
             'bathroom' => $this->bathroomNumber,
@@ -33,6 +33,7 @@ class ApartmentResource extends JsonResource
             'ward' => $this->ward->name,
             'district' => $this->ward->district->name,
             'province' => $this->ward->district->province->name,
+            'booking' => $this->bookings,
         ];
     }
 }
