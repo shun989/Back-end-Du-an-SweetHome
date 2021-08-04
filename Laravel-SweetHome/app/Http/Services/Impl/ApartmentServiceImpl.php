@@ -79,7 +79,7 @@ class ApartmentServiceImpl implements ApartmentService
         $apartment = $this->apartmentRepo->findById($id);
 
         $statusCode = 404;
-        $message = "Song not found";
+        $message = "Apartment not found";
         if ($apartment) {
             $this->apartmentRepo->destroy($apartment);
             $statusCode = 200;
