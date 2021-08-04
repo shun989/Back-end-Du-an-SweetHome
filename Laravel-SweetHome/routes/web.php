@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ImageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('images', [ ImageController::class, 'index' ]);
+Route::post('images', [ ImageController::class, 'store' ])->name('images.store');

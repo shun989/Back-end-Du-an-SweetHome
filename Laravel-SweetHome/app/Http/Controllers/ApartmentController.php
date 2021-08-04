@@ -39,7 +39,6 @@ class ApartmentController extends Controller
         return response()->json($data, 200);
     }
 
-
     public function show($id)
     {
         $apartments = Apartment::with('user', 'status', 'category', 'ward')
@@ -91,6 +90,7 @@ class ApartmentController extends Controller
 
         return response()->json($apartmentData['apartments'], $apartmentData['statusCode']);
     }
+
 
     public function destroy($id)
     {
