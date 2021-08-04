@@ -5,24 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Services\ApartmentService;
 use App\Models\Apartment;
 use Illuminate\Http\Request;
-<<<<<<< HEAD
-
-class ApartmentController extends Controller
-{
-=======
 use Illuminate\Support\Facades\DB;
 
 class ApartmentController extends Controller
 {
 
-    private ApartmentService $apartmentService;
->>>>>>> b33cddfc89923c718417d0913086fd44117a1a6a
-
     protected ApartmentService $apartmentService;
 
     public function index()
     {
-        $apartments = Apartment::with('user', 'status', 'category','ward')->get();
+        $apartments = Apartment::with('user', 'status', 'category', 'ward')->get();
         $data = [];
         foreach ($apartments as $apartment) {
             $data[] = [
@@ -45,37 +37,33 @@ class ApartmentController extends Controller
             ];
         }
         return response()->json($data, 200);
-<<<<<<< HEAD
-    }
-=======
->>>>>>> b33cddfc89923c718417d0913086fd44117a1a6a
-
     }
 
-    function show($id)
+
+    public function show($id)
     {
-        $apartments = Apartment::with('user', 'status', 'category','ward')
+        $apartments = Apartment::with('user', 'status', 'category', 'ward')
             ->findOrFail($id);
         $data = [];
-            $data[] = [
-                'id' => $apartments->id,
-                'name' => $apartments->name,
-                'price' => $apartments->price,
-                'created_at' => $apartments->created_at,
-                'user' => $apartments->user->name,
-                'phone' => $apartments->user->phone,
-                'category' => $apartments->category->name,
-                'photo' => $apartments->photo,
-                'status' => $apartments->status->name,
-                'bathroom' => $apartments->bathroomNumber,
-                'bedroom' => $apartments->bedroomNumber,
-                'description' => $apartments->description,
-                'address' => $apartments->address,
-                'user_id' => $apartments->user->id,
-                'ward' => $apartments->ward->name,
-                'district' => $apartments->ward->district->name,
-                'province' => $apartments->ward->district->province->name,
-            ];
+        $data[] = [
+            'id' => $apartments->id,
+            'name' => $apartments->name,
+            'price' => $apartments->price,
+            'created_at' => $apartments->created_at,
+            'user' => $apartments->user->name,
+            'phone' => $apartments->user->phone,
+            'category' => $apartments->category->name,
+            'photo' => $apartments->photo,
+            'status' => $apartments->status->name,
+            'bathroom' => $apartments->bathroomNumber,
+            'bedroom' => $apartments->bedroomNumber,
+            'description' => $apartments->description,
+            'address' => $apartments->address,
+            'user_id' => $apartments->user->id,
+            'ward' => $apartments->ward->name,
+            'district' => $apartments->ward->district->name,
+            'province' => $apartments->ward->district->province->name,
+        ];
         return response()->json($data, 200);
     }
 
@@ -92,8 +80,8 @@ class ApartmentController extends Controller
             $file->move(public_path('img'), $picture);
             $dataApartment = $this->apartmentService->create($data);
             return response()->json(['dataApartment' => $dataApartment, 'message' => 'Add New Apartment Successfully']);
-        }else{
-            return response()->json(['message'=> 'Select file first']);
+        } else {
+            return response()->json(['message' => 'Select file first']);
         }
     }
 
@@ -104,13 +92,7 @@ class ApartmentController extends Controller
         return response()->json($apartmentData['apartments'], $apartmentData['statusCode']);
     }
 
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> b33cddfc89923c718417d0913086fd44117a1a6a
-    function destroy($id)
+    public function destroy($id)
     {
         $user = Apartment::find($id);
 
@@ -128,8 +110,6 @@ class ApartmentController extends Controller
             'message' => "Customer record successfully deleted id # $id",
         ], 200);
     }
-<<<<<<< HEAD
-=======
 
     public function getApartmentOfUser()
     {
@@ -139,5 +119,4 @@ class ApartmentController extends Controller
             ->get();
         return response()->json($apartment, 200);
     }
->>>>>>> b33cddfc89923c718417d0913086fd44117a1a6a
 }
