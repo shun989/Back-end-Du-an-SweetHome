@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\WardController;
@@ -60,11 +61,15 @@ Route::middleware('auth:api')->group(function () {
     });
 });
 
+Route::prefix('home')->group(function () {
+    Route::get('/featured', [HomeController::class, 'getFeaturedApartment']);
+    Route::get('/lasted', [HomeController::class, 'getLastedApartment']);
+    Route::get('/area', [HomeController::class, 'getAreaApartment']);
+});
 
 Route::prefix('apartment')->group(function () {
     Route::get('', [ApartmentController::class, 'index']);
     Route::get('/{id}', [ApartmentController::class, 'show']);
-
     Route::get('/{id}/list-of-user', [ApartmentController::class, 'listOfUser']);
     Route::put('/{id}', [ApartmentController::class, 'update']);
     Route::delete('/{id}', [ApartmentController::class, 'destroy']);
