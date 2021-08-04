@@ -32,6 +32,7 @@ class BookingController extends Controller
     function getBookmarked($id)
     {
        return BookingResource::collection(Booking::with('apartment')
+           ->orderByDesc('created_at')
            ->where('user_id', '=', $id)
            ->get());
     }
