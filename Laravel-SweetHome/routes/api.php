@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\WardController;
@@ -52,6 +53,10 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/user', [ApartmentController::class, 'getApartmentOfUser']);
     });
 
+    Route::prefix('image')->group(function(){
+        Route::post('/upload',[ImageController::class,'create']);
+    });
+
 });
 
 Route::prefix('apartment')->group(function () {
@@ -83,3 +88,8 @@ Route::prefix('status')->group(function (){
     Route::get('',[StatusController::class, 'index']);
     Route::get('/{id}',[StatusController::class, 'show']);
 });
+
+Route::prefix('image')->group(function(){
+    Route::get('',[ImageController::class,'index']);
+});
+

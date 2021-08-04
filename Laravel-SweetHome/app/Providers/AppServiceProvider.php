@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use App\Http\Repositories\ImageRepository;
+use App\Http\Repositories\Impl\ImageRepositoryImpl;
 use App\Http\Repositories\Impl\UserRepositoryImpl;
 use App\Http\Repositories\UserRepository;
+use App\Http\Services\ImageService;
+use App\Http\Services\Impl\ImageServiceImpl;
 use App\Http\Services\Impl\UserServiceImpl;
 use App\Http\Services\UserService;
 
@@ -41,6 +45,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             ApartmentRepository::class,
             ApartmentRepositoryImpl::class
+        );
+
+        $this->app->singleton(
+            ImageService::class,
+            ImageServiceImpl::class
+        );
+
+        $this->app->singleton(
+            ImageRepository::class,
+            ImageRepositoryImpl::class
         );
     }
 
