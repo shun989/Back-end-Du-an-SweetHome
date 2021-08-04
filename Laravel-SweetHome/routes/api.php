@@ -40,7 +40,6 @@ Route::middleware('auth:api')->group(function (){
     });
 
 });
-
 Route::prefix('apartment')->group(function (){
     Route::get('', [ApartmentController::class, 'index']);
     Route::get('/{id}', [ApartmentController::class, 'show']);
