@@ -16,10 +16,8 @@ class ApartmentController extends Controller
 
     protected ApartmentService $apartmentService;
 
-
     function index()
     {
-
         return ApartmentResource::collection(Apartment::with('user', 'status', 'category', 'ward')->get());
     }
 
@@ -93,8 +91,7 @@ class ApartmentController extends Controller
         return response()->json($data, 200);
     }
 
-    public
-    function create(Request $request)
+    public function create(Request $request)
     {
         $file = $request->file('photo');
         $fileName = date('His') . '-' . $file->getClientOriginalName();

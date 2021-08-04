@@ -22,8 +22,8 @@ class BookingFactory extends Factory
     public function definition()
     {
         return [
-            'start_date' => $this->faker->dateTime,
-            'end_date' => $this->faker->dateTime,
+            'check_in' => $this->faker->dateTime,
+            'check_out' => $this->faker->dateTime,
             'total_price' => $this->faker->numberBetween(100000,999999),
             'user_id' => $this->faker->numberBetween(1,9),
             'apartment_id' => $this->faker->numberBetween(1,20),

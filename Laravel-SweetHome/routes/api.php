@@ -4,6 +4,7 @@
 use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\ProvinceController;
@@ -50,6 +51,10 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/add-category',[CategoryController::class, 'store']);
     });
 
+    Route::prefix('booking')->group(function () {
+        Route::post('/create', [BookingController::class, 'store']);
+    });
+
 //    Route::prefix('apartment')->group(function (){
 //        Route::post('/add',[ApartmentController::class, 'store']);
 //        Route::put('/{$id}',[ApartmentController::class,'update']);
@@ -70,6 +75,7 @@ Route::prefix('apartment')->group(function () {
     Route::get('', [ApartmentController::class, 'index']);
     Route::post('/add', [ApartmentController::class, 'create']);
     Route::get('/{id}', [ApartmentController::class, 'show']);
+    Route::get('/{id}/list-of-user', [ApartmentController::class, 'listOfUser']);
     Route::put('/{id}', [ApartmentController::class, 'update']);
     Route::delete('/{id}', [ApartmentController::class, 'destroy']);
 });

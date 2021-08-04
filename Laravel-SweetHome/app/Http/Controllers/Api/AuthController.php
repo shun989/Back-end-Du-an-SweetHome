@@ -112,7 +112,7 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Bạn đã đăng xuất.!'],200);
+        return response()->json(['message' => 'Bạn đã đăng xuất.!'], 200);
     }
 
     /**
@@ -147,7 +147,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
+            'expires_in' => auth()->factory()->getTTL() * 60000,
             'user' => auth()->user()
         ]);
     }
@@ -236,8 +236,9 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
+
         $userId = \auth()->user()->id;
         $oldPass = \auth()->user()->password;
 
@@ -249,8 +250,7 @@ class AuthController extends Controller
                 'message' => 'Đổi mật khẩu thành công.',
                 'user' => $user
             ], 201);
-        };
+        }
         return response()->json('Mật khẩu cũ không chính xác!!', 400);
-
     }
 }
