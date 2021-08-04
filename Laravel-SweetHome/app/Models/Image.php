@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Image extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'apartment_id', 'name'
+    ];
 
     public function apartment()
     {
