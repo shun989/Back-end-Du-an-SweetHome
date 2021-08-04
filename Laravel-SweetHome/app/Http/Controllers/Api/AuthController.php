@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
-use  Illuminate\Support\Facades\Auth;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
-use Exception;
 
 
 class AuthController extends Controller
@@ -60,7 +61,8 @@ class AuthController extends Controller
             'name' => 'required|between:2,100',
             'email' => 'required|email|max:100|unique:users',
             'password' => 'required|confirmed|min:6|max:20',
-            'phone' => 'required|regex:/^(0+[0-9]{9})$/|unique:users',
+            'phone' => 'required|regex:/^(0+[0-9]{9})$/',
+
         ]);
 
         if ($validator->fails()) {
@@ -230,27 +232,27 @@ class AuthController extends Controller
 
     public function changePassword(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'old_password' => 'required|string|min:6|max:20',
-            'new_password' => 'required|string|confirmed|min:6|max:20',
+        $validators =Validator::make( $request->all(),[
+            'current_password' => 'required',
+            'password' => 'required|string|min:6|max:8|confirmed',
+            'password_confirmation' => 'required'
         ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+        if ($validators->fails()){
+            return response()->json([$validators->errors()->toJson(),
+                'message' => 'Password not match',
+                'error' => 'password_confirmation'
+                ],400);
         }
 
-        $userId = \auth()->user()->id;
-        $oldPass = \auth()->user()->password;
-
-        if (password_verify($request->old_password, $oldPass)) {
-            $user = User::where('id', $userId)->update(
-                ['password' => bcrypt($request->new_password)]
-            );
-            return response()->json([
-                'message' => 'Đổi mật khẩu thành công.',
-                'user' => $user
-            ], 201);
+        $user = Auth::user();
+        if (!Hash::check($request->current_password,$user->password)) {
+            return response()->json(['error' => "It's not your current password"]);
         }
-        return response()->json('Mật khẩu cũ không chính xác!!', 400);
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json(['message'=>'Change password success!']);
+
     }
 }

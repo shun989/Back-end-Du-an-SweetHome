@@ -17,20 +17,19 @@ class ApartmentController extends Controller
         $this->apartmentService = $apartmentService;
     }
 
-   public function index()
-   {
-       $apartments = DB::table('apartments')
-           ->JOIN ('categories','apartments.category_id', '=','categories.id' )
-           ->JOIN ('wards','apartments.wards_id','=' ,'wards.id' )
-           ->JOIN ('wards',function ($join){
-              $join ->JOIN ('districts','wards.district_id', '=','districts.id' )
-                   ->JOIN ('provinces','districts.provinces_id', '=','provinces.id' );
-           })
-//            ->SELECT ('apartments.name', 'apartments.price', 'apartments.description', 'apartments.bathroomNumber', 'apartments.bedroomNumber', 'apartments.photo', 'apartments.address', 'categories.name', 'wards.name','districts.name','provinces.name')
-           ->SELECT ('apartments.*', 'categories.name', 'wards.name','districts.name','provinces.name')
-           ->get();
-       return response()->json($apartments, 200);
-   }
+    public function index()
+    {
+        $apartments = DB::table('apartments')
+            ->JOIN ('categories','apartments.category_id', '=','categories.id' )
+            ->JOIN ('wards','apartments.wards_id','=' ,'wards.id' )
+            ->JOIN ('districts','wards.district_id', '=','districts.id' )
+            ->JOIN ('provinces','districts.provinces_id', '=','provinces.id' )
+//            ->SELECT ('apartments.*','categories.name' , 'wards.name','districts.name','provinces.name')
+            ->SELECT ('apartments.name', 'apartments.price', 'apartments.description', 'apartments.bathroomNumber', 'apartments.bedroomNumber', 'apartments.photo', 'apartments.address','categories.name', 'wards.name','districts.name','provinces.name')
+            ->get();
+        return response()->json($apartments, 200);
+    }
+
 
     public function show($id)
     {

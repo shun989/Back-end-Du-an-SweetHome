@@ -2,21 +2,25 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Http\Requests\AddApartmentRequest;
 
 use App\Http\Requests\UpdateApartmentRequest;
 use App\Http\Resources\ApartmentResource;
+
 use App\Http\Services\ApartmentService;
-use App\Http\Services\Impl\ApartmentServiceImpl;
 use App\Models\Apartment;
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\DB;
+
 
 class ApartmentController extends Controller
 {
 
     protected ApartmentService $apartmentService;
 
-    function index()
+    public function index()
     {
         return ApartmentResource::collection(Apartment::with('user', 'status', 'category', 'ward')->get());
     }
@@ -33,10 +37,10 @@ class ApartmentController extends Controller
                 'id' => $apartment->id,
                 'name' => $apartment->name,
                 'price' => $apartment->price,
-                'created_at' => $apartment->created_at->format('jS F Y h:i:s A'),
+                'created_at' => $apartment->created_at,
                 'user' => $apartment->user->name,
                 'category' => $apartment->category->name,
-                'image' => $apartment->photo,
+                'photo' => $apartment->photo,
                 'status' => $apartment->status->name,
                 'bathroom' => $apartment->bathroomNumber,
                 'bedroom' => $apartment->bedroomNumber,
@@ -53,22 +57,10 @@ class ApartmentController extends Controller
 
     }
 
-    function store(AddApartmentRequest $request)
-    {
-        $apartment = new Apartment();
-        $apartment->fill($request->all());
-        $apartment->save();
-        $statusCode = 201;
-        if (!$apartment)
-            $statusCode = 404;
-        return response($apartment, $statusCode);
-    }
-
     function show($id)
     {
         $apartments = Apartment::with('user', 'status', 'category', 'ward')
             ->findOrFail($id);
-
         $data[] = [
             'id' => $apartments->id,
             'name' => $apartments->name,
@@ -88,6 +80,7 @@ class ApartmentController extends Controller
             'district' => $apartments->ward->district->name,
             'province' => $apartments->ward->district->province->name,
         ];
+
         return response()->json($data, 200);
     }
 
@@ -136,4 +129,15 @@ class ApartmentController extends Controller
             'message' => "Customer record successfully deleted id # $id",
         ], 200);
     }
+
+
+    public function getApartmentOfUser()
+    {
+        $apartment = DB::table('apartments')
+            ->JOIN ('users', 'users.id', '=', 'apartments.user_id')
+            ->SELECT ('apartments.*')
+            ->get();
+        return response()->json($apartment, 200);
+    }
+
 }
