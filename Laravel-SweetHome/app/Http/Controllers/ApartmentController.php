@@ -31,12 +31,36 @@ class ApartmentController extends Controller
         return ApartmentResource::collection(Apartment::with('user', 'status', 'category', 'ward')
             ->where('user_id', '=', $id_user)
             ->get());
+        $apartments = Apartment::with('user', 'status', 'category', 'ward')->get();
+        $data = [];
+        foreach ($apartments as $apartment) {
+            $data[] = [
+                'id' => $apartment->id,
+                'name' => $apartment->name,
+                'price' => $apartment->price,
+                'created_at' => $apartment->created_at,
+                'user' => $apartment->user->name,
+                'category' => $apartment->category->name,
+                'photo' => $apartment->photo,
+                'status' => $apartment->status->name,
+                'bathroom' => $apartment->bathroomNumber,
+                'bedroom' => $apartment->bedroomNumber,
+                'description' => $apartment->description,
+                'address' => $apartment->address,
+                'user_id' => $apartment->user->id,
+                'ward' => $apartment->ward->name,
+                'district' => $apartment->ward->district->name,
+                'province' => $apartment->ward->district->province->name,
+            ];
+        }
+        return response()->json($data, 200);
     }
 
-    function show($id)
+    public function show($id)
     {
         $apartments = Apartment::with('user', 'status', 'category', 'ward')
             ->findOrFail($id);
+        $data = [];
         $data[] = [
             'id' => $apartments->id,
             'name' => $apartments->name,
@@ -46,6 +70,11 @@ class ApartmentController extends Controller
             'phone' => $apartments->user->phone,
             'category' => $apartments->category->name,
             'image' => $apartments->photo,
+            'created_at' => $apartments->created_at,
+            'user' => $apartments->user->name,
+            'phone' => $apartments->user->phone,
+            'category' => $apartments->category->name,
+            'photo' => $apartments->photo,
             'status' => $apartments->status->name,
             'bathroom' => $apartments->bathroomNumber,
             'bedroom' => $apartments->bedroomNumber,
@@ -85,7 +114,9 @@ class ApartmentController extends Controller
         return response()->json($apartmentData['apartments'], $apartmentData['statusCode']);
     }
 
-    function destroy($id)
+
+
+    public function destroy($id)
     {
         $user = Apartment::find($id);
 
