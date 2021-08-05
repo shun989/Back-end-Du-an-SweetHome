@@ -22,7 +22,8 @@ class ApartmentController extends Controller
 
     public function index()
     {
-        return ApartmentResource::collection(Apartment::with('user', 'status', 'category', 'ward')->get());
+        return ApartmentResource::collection(Apartment::with('user', 'status', 'category', 'ward')
+            ->get());
     }
 
     function listOfUser($id_user)
@@ -31,7 +32,6 @@ class ApartmentController extends Controller
             ->where('user_id', '=', $id_user)
             ->get());
     }
-
 
     function show($id)
     {
@@ -78,14 +78,12 @@ class ApartmentController extends Controller
         }
     }
 
-    public
-    function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $apartmentData = $this->apartmentService->update($request->all(), $id);
 
         return response()->json($apartmentData['apartments'], $apartmentData['statusCode']);
     }
-
 
     function destroy($id)
     {
@@ -106,14 +104,16 @@ class ApartmentController extends Controller
         ], 200);
     }
 
-
     public function getApartmentOfUser()
     {
-        $apartment = DB::table('apartments')
-            ->JOIN ('users', 'users.id', '=', 'apartments.user_id')
-            ->SELECT ('apartments.*')
-            ->get();
-        return response()->json($apartment, 200);
-    }
+        return ApartmentResource::collection(Apartment::with('user', 'status', 'category', 'ward')
+            ->where('user_id', '=', 54)
+            ->get());
 
+//        $apartment = DB::table('apartments')
+//            ->JOIN ('users', 'users.id', '=', 'apartments.user_id')
+//            ->SELECT ('apartments.*')
+//            ->get();
+//        return response()->json($apartment, 200);
+    }
 }

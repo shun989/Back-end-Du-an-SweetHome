@@ -34,6 +34,7 @@ class BookingController extends Controller
        return BookingResource::collection(Booking::with('apartment')
            ->orderByDesc('created_at')
            ->where('user_id', '=', $id)
-           ->get());
+           ->get()
+           );
     }
 }
