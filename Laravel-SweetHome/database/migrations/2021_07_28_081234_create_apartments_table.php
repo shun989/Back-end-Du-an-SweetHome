@@ -24,7 +24,7 @@ class CreateApartmentsTable extends Migration
             $table->text('address');
             $table->foreignId('user_id')
                 ->nullable()
-                ->constrained()
+                ->constrained('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->foreignId('category_id')

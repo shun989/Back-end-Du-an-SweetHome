@@ -64,8 +64,8 @@ class AuthController extends Controller
             'phone' => 'required|regex:/^(0+[0-9]{9})$/|unique:users',
         ]);
 
-
         if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
             return response()->json([$validator->errors()->toJson(),
                 'message' => 'Email đã tồn tại!',
                 'error' => 'email'
@@ -130,7 +130,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
+            'expires_in' => auth()->factory()->getTTL() * 600,
             'user' => auth()->user()
         ]);
     }
