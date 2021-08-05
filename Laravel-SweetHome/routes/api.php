@@ -64,7 +64,8 @@ Route::middleware('auth:api')->group(function () {
 Route::prefix('home')->group(function () {
     Route::get('/featured', [HomeController::class, 'getFeaturedApartment']);
     Route::get('/lasted', [HomeController::class, 'getLastedApartment']);
-    Route::get('/area', [HomeController::class, 'getAreaApartment']);
+    Route::get('/area/{code}', [HomeController::class, 'getAreaApartment']);
+    Route::get('/count', [HomeController::class, 'countHomeArea']);
 });
 
 Route::prefix('apartment')->group(function () {

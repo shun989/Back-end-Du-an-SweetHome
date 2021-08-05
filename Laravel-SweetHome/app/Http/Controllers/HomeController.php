@@ -24,8 +24,26 @@ class HomeController extends Controller
             ->get());
     }
 
-    function getAreaApartment()
+    function getAreaApartment($area)
     {
-        return Province::withCount('apartments')->get();
+        if ($area == 'HN') {
+            return Province::with('apartments')
+//                ->where('name', '=', 'Lake Jimmie')
+                ->where('name', '=', 'Hà Nội')
+                ->get();
+        }
+
+        if ($area == 'HCM') {
+            return Province::with('apartments')
+                ->where('name', '=', 'Hồ Chí Minh')
+                ->get();
+        }
+    }
+
+    function countHomeArea() {
+        return Province::withCount('apartments')
+//            ->where('name', '=', 'Lake Jimmie')
+                ->where('name', '=', 'Hà Nội')
+            ->get();
     }
 }
