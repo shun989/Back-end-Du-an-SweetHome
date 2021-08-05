@@ -2,11 +2,15 @@
 
 namespace App\Providers;
 
+use App\Http\Repositories\AvatarRepository;
 use App\Http\Repositories\ImageRepository;
+use App\Http\Repositories\Impl\AvatarRepositoryImpl;
 use App\Http\Repositories\Impl\ImageRepositoryImpl;
 use App\Http\Repositories\Impl\UserRepositoryImpl;
 use App\Http\Repositories\UserRepository;
+use App\Http\Services\AvatarService;
 use App\Http\Services\ImageService;
+use App\Http\Services\Impl\AvatarServiceImpl;
 use App\Http\Services\Impl\ImageServiceImpl;
 use App\Http\Services\Impl\UserServiceImpl;
 use App\Http\Services\UserService;
@@ -53,6 +57,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             ImageRepository::class,
             ImageRepositoryImpl::class
+        );
+
+        $this->app->singleton(
+            AvatarService::class,
+            AvatarServiceImpl::class
+        );
+
+        $this->app->singleton(
+            AvatarRepository::class,
+            AvatarRepositoryImpl::class
         );
     }
 

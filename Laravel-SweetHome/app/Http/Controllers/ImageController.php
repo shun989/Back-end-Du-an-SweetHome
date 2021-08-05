@@ -43,26 +43,21 @@ class ImageController extends Controller
         }
     }
 
-//    public function create( Request $request)
+//    public function store(Request $request)
 //    {
-//        $request->validate([
-//            'name' => 'required'
-//        ]);
+//        if ($request->hasFile('images')){
+//            $images = $request->file('images');
 //
-//        if ($request->hasfile('name')) {
-//            $images = $request->file('name');
-//            $id = $request->id;
-//            foreach($images as $image) {
-//                $name = rand(1, 100) . date('Y-m-d_h:i:s') . '.' . $image->extension();
-//                $image->storeAs(public_path("image"), $name);
+//            foreach ($images as $image) {
+//                $name = $image->getClientOriginalName();
+//                $path = $image->storeAs('uploads',$name,'public');
+//
 //                Image::create([
-//                    'apartment_id' => $id,
-//                    'image' => $name,
+//                    'name' => $name,
+//                    'path' => '/storage/' . $path
 //                ]);
+//                return response()->json([$image ,'success', 'Images uploaded successfully']);
 //            }
-//            return response()->json(['dataImage' => $image, 'message' => 'Add New Image Successfully']);
-//        }else{
-//            return response()->json(['message'=> 'Select file first']);
 //        }
 //    }
 
@@ -91,4 +86,5 @@ class ImageController extends Controller
             'message' => "Customer record successfully deleted id # $id",
         ], 200);
     }
+
 }
