@@ -51,6 +51,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::prefix('booking')->group(function () {
         Route::get('/{id}', [BookingController::class, 'getBookmarked']);
+        Route::delete('/{id}', [BookingController::class, 'destroy']);
     });
 
     Route::prefix('apartment')->group(function () {
