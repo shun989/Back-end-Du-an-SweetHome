@@ -10,6 +10,7 @@
  -     DB_USERNAME=root
  -     DB_PASSWORD=(root password.)
 - 1.5: php artisan jwt:secret
-- 1.6: php artisan migrate 
-- 1.7: php artisan serve để chạy api.
+- 1.6: php artisan migrate .
+- 1.7: composer require staudenmeir/eloquent-has-many-deep:"^1.12"
+- 2: php artisan serve để chạy api.
  
