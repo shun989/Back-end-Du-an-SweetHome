@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Http\Requests\AddApartmentRequest;
-
 use App\Http\Requests\UpdateApartmentRequest;
 use App\Http\Resources\ApartmentResource;
-
 use App\Http\Services\ApartmentService;
 use App\Models\Apartment;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\DB;
-
 
 class ApartmentController extends Controller
 {
