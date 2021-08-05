@@ -60,13 +60,16 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|between:2,100',
             'email' => 'required|email|max:100|unique:users',
-            'password' => 'required|confirmed|min:6|max:20',
-            'phone' => 'required|regex:/^(0+[0-9]{9})$/',
-
+            'password' => 'required|confirmed|min:6|max:8',
+            'phone' => 'required|regex:/^(0+[0-9]{9})$/|unique:users',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
+            return response()->json([$validator->errors()->toJson(),
+                'message' => 'Email đã tồn tại!',
+                'error' => 'email'
+            ], 400);
         }
 
         $user = User::create(array_merge(
@@ -83,28 +86,6 @@ class AuthController extends Controller
 
     }
 
-//    public function changePassword(Request $request)
-//    {
-//        $validator = Validator::make($request->all(), [
-//            'old_password' => 'required|min:6|max:20',
-//            'new_password' => 'required|confirmed|min:6|max:20',
-//        ]);
-//
-//        if ($validator->fails()) {
-//            return response()->json($validator->errors()->toJson(), 400);
-//        }
-//
-//        $userId = auth()->user()->id;
-//
-//        $user = User::where('id',$userId)->update(
-//            ['password' => bcrypt($request->new_password)]
-//        );
-//
-//        return response()->json([
-//            'message' => 'User successfully change password.',
-//            'user' => $user
-//        ], 201);
-//    }
     /**
      * Log the user out (Invalidate the token).
      *
@@ -232,20 +213,21 @@ class AuthController extends Controller
 
     public function changePassword(Request $request)
     {
-        $validators =Validator::make( $request->all(),[
+        $validators = Validator::make($request->all(), [
             'current_password' => 'required',
             'password' => 'required|string|min:6|max:8|confirmed',
             'password_confirmation' => 'required'
         ]);
 
-        if ($validators->fails()){
+        if ($validators->fails()) {
             return response()->json([$validators->errors()->toJson(),
                 'message' => 'Password not match',
                 'error' => 'password_confirmation'
-                ],400);
+            ], 400);
         }
 
         $user = Auth::user();
+
         if (!Hash::check($request->current_password,$user->password)) {
             return response()->json(['error' => "It's not your current password"]);
         }

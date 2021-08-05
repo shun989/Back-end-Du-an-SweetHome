@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CategoryController;
@@ -56,11 +57,50 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::prefix('apartment')->group(function () {
+        Route::post('/add', [ApartmentController::class, 'store']);
+        Route::prefix('me')->group(function () {
+            Route::put('/{id}/update-profile', [UserController::class, 'update'])->name('profile.update');
+        });
+        Route::prefix('category')->group(function () {
+            Route::post('/add-category', [CategoryController::class, 'store']);
+        });
+
+        Route::prefix('apartment')->group(function () {
+            Route::post('/add', [ApartmentController::class, 'create']);
+            Route::put('/{id}', [ApartmentController::class, 'update']);
+            Route::delete('/{id}', [ApartmentController::class, 'destroy']);
+        });
+
+        Route::prefix('me')->group(function () {
+            Route::put('/{id}/update-profile', [UserController::class, 'update'])->name('profile.update');
+        });
+        Route::prefix('category')->group(function () {
+            Route::post('/add-category', [CategoryController::class, 'store']);
+        });
+
+//    Route::prefix('apartment')->group(function (){
+//        Route::post('/add',[ApartmentController::class, 'store']);
+//        Route::put('/{$id}',[ApartmentController::class,'update']);
+//        Route::delete('/{$id}',[ApartmentController::class, 'destroy']);
+//    });
+
+    });
+
+    Route::prefix('apartment')->group(function () {
         Route::post('/add', [ApartmentController::class, 'create']);
         Route::put('/{id}', [ApartmentController::class, 'update']);
         Route::delete('/{id}', [ApartmentController::class, 'destroy']);
         Route::get('/user', [ApartmentController::class, 'getApartmentOfUser']);
     });
+
+    Route::prefix('apartment')->group(function () {
+        Route::get('', [ApartmentController::class, 'index']);
+        Route::get('/{id}', [ApartmentController::class, 'show']);
+    });
+    Route::prefix('image')->group(function(){
+        Route::post('/upload',[ImageController::class,'create']);
+    });
+
 });
 
 Route::prefix('home')->group(function () {
@@ -102,3 +142,8 @@ Route::prefix('status')->group(function () {
     Route::get('', [StatusController::class, 'index']);
     Route::get('/{id}', [StatusController::class, 'show']);
 });
+
+Route::prefix('image')->group(function(){
+    Route::get('',[ImageController::class,'index']);
+});
+
