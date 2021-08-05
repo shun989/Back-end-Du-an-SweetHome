@@ -21,6 +21,7 @@ class CreateApartmentsTable extends Migration
             $table->integer('bathroomNumber')->nullable();
             $table->integer('bedroomNumber')->nullable();
             $table->string('photo');
+            $table->integer('view_count')->default(1);
             $table->text('address');
             $table->foreignId('user_id')
                 ->nullable()

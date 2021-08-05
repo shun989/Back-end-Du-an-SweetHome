@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\BookingResource;
+use App\Models\Apartment;
 use App\Models\Booking;
 use App\Models\Status;
 use Carbon\Carbon;
@@ -13,7 +14,6 @@ class BookingController extends Controller
 
     function store(Request $request)
     {
-
         $booking = new Booking();
         $booking->check_in = $request->startDate;
         $booking->check_out = $request->endDate;
@@ -24,6 +24,7 @@ class BookingController extends Controller
         $data = [
             'message' => 'success'
         ];
+        Apartment::where('id',$request->apartment_id)->increment('view_count');
         return response()->json($data, 200);
     }
 
@@ -32,8 +33,12 @@ class BookingController extends Controller
         return BookingResource::collection(Booking::with('apartment')
             ->orderByDesc('created_at')
             ->where('user_id', '=', $id)
-            ->get()
-        );
+            ->get());
+    }
+
+    function getHistory()
+    {
+
     }
 
     function destroy($id)

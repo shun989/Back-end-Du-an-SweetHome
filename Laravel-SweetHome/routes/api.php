@@ -52,6 +52,7 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('booking')->group(function () {
         Route::get('/{id}', [BookingController::class, 'getBookmarked']);
         Route::delete('/{id}', [BookingController::class, 'destroy']);
+        Route::post('/create', [BookingController::class, 'store']);
     });
 
     Route::prefix('apartment')->group(function () {
@@ -100,7 +101,4 @@ Route::prefix('ward')->group(function () {
 Route::prefix('status')->group(function () {
     Route::get('', [StatusController::class, 'index']);
     Route::get('/{id}', [StatusController::class, 'show']);
-});
-Route::prefix('booking')->group(function () {
-    Route::post('/create', [BookingController::class, 'store']);
 });
