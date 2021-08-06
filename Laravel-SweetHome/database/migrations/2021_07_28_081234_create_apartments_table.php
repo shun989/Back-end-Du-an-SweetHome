@@ -21,7 +21,28 @@ class CreateApartmentsTable extends Migration
             $table->integer('bathroomNumber')->nullable();
             $table->integer('bedroomNumber')->nullable();
             $table->string('photo');
+            $table->integer('view_count')->default(1);
             $table->text('address');
+            $table->foreignId('user_id')
+                ->nullable()
+                ->constrained('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('category_id')
+                ->nullable()
+                ->constrained('categories')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('status_id')
+                ->nullable()
+                ->constrained('status')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('ward_id')
+                ->nullable()
+                ->constrained('wards')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
