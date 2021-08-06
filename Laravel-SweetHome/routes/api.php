@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\BookingController;
@@ -31,8 +32,8 @@ Route::group([
 ], function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
-//    Route::get('/google', [GoogleController::class, 'redirectToGoogle']);
-//    Route::get('/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+    //    Route::get('/google', [GoogleController::class, 'redirectToGoogle']);
+    //    Route::get('/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 });
 
 Route::middleware('auth:api')->group(function () {
@@ -78,12 +79,6 @@ Route::middleware('auth:api')->group(function () {
             Route::post('/add-category', [CategoryController::class, 'store']);
         });
 
-//    Route::prefix('apartment')->group(function (){
-//        Route::post('/add',[ApartmentController::class, 'store']);
-//        Route::put('/{$id}',[ApartmentController::class,'update']);
-//        Route::delete('/{$id}',[ApartmentController::class, 'destroy']);
-//    });
-
     });
 
     Route::prefix('apartment')->group(function () {
@@ -94,6 +89,18 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::prefix('apartment')->group(function () {
+        Route::post('/add', [ApartmentController::class, 'store']);
+        Route::put('/{$id}', [ApartmentController::class, 'update']);
+        Route::delete('/{$id}', [ApartmentController::class, 'destroy']);
+    });
+    Route::prefix('user')->group(function () {
+        Route::get('/user', [UserController::class, 'index']);
+        Route::post('/user_profile', [UserController::class, 'update']);
+    });
+});
+Route::prefix('apartment')->group(function () {
+    Route::get('', [ApartmentController::class, 'index']);
+    Route::get('/{id}', [ApartmentController::class, 'show']);
         Route::get('', [ApartmentController::class, 'index']);
         Route::get('/{id}', [ApartmentController::class, 'show']);
     });
@@ -146,4 +153,3 @@ Route::prefix('status')->group(function () {
 Route::prefix('image')->group(function(){
     Route::get('',[ImageController::class,'index']);
 });
-
