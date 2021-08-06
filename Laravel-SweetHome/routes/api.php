@@ -4,7 +4,6 @@
 use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DistrictController;
@@ -32,20 +31,21 @@ Route::group([
 ], function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
-//    Route::get('/google', [GoogleController::class, 'redirectToGoogle']);
-//    Route::get('/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+    //    Route::get('/google', [GoogleController::class, 'redirectToGoogle']);
+    //    Route::get('/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 });
+
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
     Route::post('/change-password/', [AuthController::class, 'changePassword']);
-    Route::put('/{id}/update-profile', [UserController::class, 'update']);
+//    Route::put('/{id}/update-profile', [UserController::class, 'update']);
 
     Route::prefix('me')->group(function () {
-        Route::put('/{id}/update-profile', [UserController::class, 'update'])
-            ->name('profile.update');
+        Route::put('/{id}/update-profile', [UserController::class, 'updateUser']);
+        Route::post('/user_profile', [UserController::class, 'update']);
     });
 
     Route::prefix('category')->group(function () {
@@ -55,28 +55,30 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('booking')->group(function () {
         Route::get('/{id}', [BookingController::class, 'getBookmarked']);
         Route::delete('/{id}', [BookingController::class, 'destroy']);
+        Route::post('/create', [BookingController::class, 'store']);
     });
 
     Route::prefix('apartment')->group(function () {
         Route::post('/add', [ApartmentController::class, 'create']);
         Route::put('/{id}', [ApartmentController::class, 'update']);
         Route::delete('/{id}', [ApartmentController::class, 'destroy']);
-    });
-
-    Route::prefix('category')->group(function () {
-        Route::post('/add-category', [CategoryController::class, 'store']);
-    });
-
-    Route::prefix('image')->group(function () {
-        Route::post('/upload', [ImageController::class, 'create']);
-    });
-
-    Route::prefix('avatar')->group(function () {
-        Route::post('/create', [AvatarController::class, 'store']);
+        Route::get('/{id}/list-of-user', [ApartmentController::class, 'listOfUser']);
     });
 
 });
 
+
+Route::prefix('user')->group(function () {
+    Route::get('', [UserController::class, 'index']);
+});
+
+Route::prefix('image')->group(function () {
+    Route::post('/upload', [ImageController::class, 'create']);
+});
+
+//Route::prefix('avatar')->group(function () {
+//    Route::post('/create', [AvatarController::class, 'store']);
+//});
 
 Route::prefix('home')->group(function () {
     Route::get('/featured', [HomeController::class, 'getFeaturedApartment']);
@@ -144,6 +146,4 @@ Route::prefix('status')->group(function () {
 Route::prefix('avatar')->group(function () {
     Route::get('', [ImageController::class, 'index']);
 });
-
-
 

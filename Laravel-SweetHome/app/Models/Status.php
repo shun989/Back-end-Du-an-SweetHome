@@ -13,7 +13,7 @@ class Status extends Model
         'name'
     ];
 
-//    protected $table = 'statuses';
+    protected $table = 'statuses';
 
     public function apartments()
     {

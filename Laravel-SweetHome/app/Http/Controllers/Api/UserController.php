@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Services\UserService;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Services\UserService;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
     protected $userService;
 
     public function __construct(UserService $userService)
@@ -15,44 +17,32 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
+    public function index()
+    {
+        $users = User::all();
+        return response()->json($users, 200);
+    }
+
     public function store(Request $request)
     {
         $dataUser = $this->userService->create($request->all());
-        return response()->json($dataUser['users'],$dataUser['statusCode']);
+        return response()->json($dataUser['users'], $dataUser['statusCode']);
     }
 
-    public function update(Request $request, $id)
+
+    function updateUser(Request $request, $id)
     {
-        $dataUser = $this->userService->update($request->all(),$id);
-        return response()->json($dataUser['users'],['message'=>'Update profile Successfully.']);
+        $user = User::find($id);
+        $user->fill($request->all());
+        $user->save();
+
+        $data = [
+            'status' => 'success',
+            'message' => 'Cập nhật thông tin thành công'
+        ];
+
+        return response()->json($data);
     }
 
-//    public function updateAvatar(Request $request, $id)
-//    {
-//        $file = $request->file('image');
-//        $fileName = date('His') . '-' . $file->getClientOriginalName();
-//        $data = $request->all();
-//        $data['image'] = $fileName;
-//
-//        if ($request->hasFile('image')) {
-//            $extension = $file->getClientOriginalExtension();
-//            $picture = $fileName;
-//            $file->move(public_path('avatar'), $picture);
-//            $dataImage = $this->userService->update($data, $id);
-//            return response()->json([$dataImage['users'], 'message' => 'Change avatar Successfully']);
-//        }else{
-//            return response()->json(['message'=> 'Select file first']);
-//        }
-//    }
-//
-//    public function upload(Request $request, $id)
-//    {
-//        if($request->hasFile('image')){
-//            $filename = $request->image->getClientOriginalName();
-//            $request->image->move(public_path('avatar'),$filename);
-//            $this->userService->update(['image'=>$filename], $id);
-//        }
-//        return response()->json([ 'message' => 'Change avatar Successfully']);
-//
-//    }
+
 }

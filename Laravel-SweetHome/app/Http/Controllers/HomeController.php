@@ -19,7 +19,7 @@ class HomeController extends Controller
     function getLastedApartment()
     {
         return HomeResource::collection(Apartment::with('user', 'status', 'category', 'ward')
-            ->orderByDesc('price')
+            ->orderByDesc('view_count')
             ->take(3)
             ->get());
     }
@@ -28,7 +28,7 @@ class HomeController extends Controller
     {
         if ($area == 'HN') {
             return Province::with('apartments')
-                ->where('name', '=', 'Lake Jimmie')
+//                ->where('name', '=', 'Lake Jimmie')
                 ->where('name', '=', 'Hà Nội')
                 ->get();
         }
@@ -42,7 +42,7 @@ class HomeController extends Controller
 
     function countHomeArea() {
         return Province::withCount('apartments')
-            ->where('name', '=', 'Lake Jimmie')
+//            ->where('name', '=', 'Lake Jimmie')
             ->where('name', '=', 'Hà Nội')
             ->get();
     }

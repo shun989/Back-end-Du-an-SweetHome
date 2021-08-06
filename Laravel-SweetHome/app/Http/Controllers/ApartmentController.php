@@ -47,7 +47,7 @@ class ApartmentController extends Controller
             'user' => $apartments->user->name,
             'phone' => $apartments->user->phone,
             'category' => $apartments->category->name,
-            'image' => $apartments->photo,
+            'image' => $apartments->user->image,
             'photo' => $apartments->photo,
             'status' => $apartments->status->name,
             'bathroom' => $apartments->bathroomNumber,
