@@ -9,7 +9,6 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\WardController;
@@ -54,6 +53,7 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('booking')->group(function () {
         Route::get('/{id}', [BookingController::class, 'getBookmarked']);
         Route::delete('/{id}', [BookingController::class, 'destroy']);
+        Route::post('/create', [BookingController::class, 'store']);
     });
 
     Route::prefix('apartment')->group(function () {
@@ -141,37 +141,6 @@ Route::prefix('ward')->group(function () {
 Route::prefix('status')->group(function () {
     Route::get('', [StatusController::class, 'index']);
     Route::get('/{id}', [StatusController::class, 'show']);
-});
-Route::prefix('booking')->group(function () {
-    Route::post('/create', [BookingController::class, 'store']);
-    Route::prefix('category')->group(function () {
-        Route::get('', [CategoryController::class, 'index']);
-        Route::get('/{id}', [CategoryController::class, 'show']);
-    });
-
-    Route::prefix('province')->group(function () {
-        Route::get('', [ProvinceController::class, 'index']);
-        Route::get('/{id}', [ProvinceController::class, 'show']);
-    });
-
-    Route::prefix('district')->group(function () {
-        Route::get('', [DistrictController::class, 'index']);
-        Route::get('/{id}', [DistrictController::class, 'show']);
-    });
-
-    Route::prefix('ward')->group(function () {
-        Route::get('', [WardController::class, 'index']);
-        Route::get('/{id}', [WardController::class, 'index']);
-    });
-
-    Route::prefix('status')->group(function () {
-        Route::get('', [StatusController::class, 'index']);
-        Route::get('/{id}', [StatusController::class, 'show']);
-    });
-
-    Route::prefix('images')->group(function () {
-        Route::post('/add',[ImageController::class,'store']);
-    });
 });
 
 Route::prefix('image')->group(function(){

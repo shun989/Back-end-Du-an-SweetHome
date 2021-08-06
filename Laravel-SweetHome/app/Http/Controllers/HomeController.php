@@ -19,7 +19,7 @@ class HomeController extends Controller
     function getLastedApartment()
     {
         return HomeResource::collection(Apartment::with('user', 'status', 'category', 'ward')
-            ->orderByDesc('price')
+            ->orderByDesc('view_count')
             ->take(3)
             ->get());
     }
