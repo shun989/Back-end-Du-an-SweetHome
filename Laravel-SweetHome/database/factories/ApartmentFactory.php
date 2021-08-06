@@ -32,7 +32,7 @@ class ApartmentFactory extends Factory
             'user_id' => $this->faker->numberBetween(1,50),
             'category_id' => $this->faker->numberBetween(1,5),
             'status_id' => $this->faker->numberBetween(1,3),
-            'ward_id' => $this->faker->numberBetween(1,1000),
+            'ward_id' => $this->faker->numberBetween(1,50),
         ];
     }
 }

@@ -18,6 +18,7 @@ use App\Http\Repositories\ApartmentRepository;
 use App\Http\Repositories\Impl\ApartmentRepositoryImpl;
 use App\Http\Services\ApartmentService;
 use App\Http\Services\Impl\ApartmentServiceImpl;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -77,6 +78,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        JsonResource::withoutWrapping();
     }
 }
